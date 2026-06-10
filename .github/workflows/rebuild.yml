@@ -1,0 +1,18 @@
+# Trigger Cloudflare Pages rebuild on schedule
+# The actual index build happens during Cloudflare's build step
+name: Trigger Cloudflare Rebuild
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy
+        run: |
+          curl -s -X POST "${{ vars.CLOUDFLARE_DEPLOY_HOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{"branch":"main"}'

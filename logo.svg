@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 40" fill="none">
+  <!-- LEFT WING: dramatic, swept back from heel -->
+  <path d="M30 32 C16 26, 8 16, 12 6 C18 12, 24 20, 30 26 C34 18, 40 10, 50 4 C44 12, 38 20, 34 28 Z"
+        fill="#00a3d4" opacity="0.25"/>
+  <path d="M30 32 C16 26, 8 16, 12 6 C18 12, 24 20, 30 26 C34 18, 40 10, 50 4 C44 12, 38 20, 34 28"
+        stroke="#00a3d4" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- Feather lines (left) -->
+  <path d="M16 22 L42 18" stroke="#00a3d4" stroke-width="0.7" opacity="0.6"/>
+  <path d="M20 14 L40 12" stroke="#00a3d4" stroke-width="0.7" opacity="0.5"/>
+  <path d="M26 8 L36 6"  stroke="#00a3d4" stroke-width="0.7" opacity="0.4"/>
+
+  <!-- RIGHT WING: mirror -->
+  <path d="M30 32 C44 26, 52 16, 48 6 C42 12, 36 20, 30 26 C26 18, 20 10, 10 4 C16 12, 22 20, 26 28 Z"
+        fill="#00a3d4" opacity="0.25"/>
+  <path d="M30 32 C44 26, 52 16, 48 6 C42 12, 36 20, 30 26 C26 18, 20 10, 10 4 C16 12, 22 20, 26 28"
+        stroke="#00a3d4" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M44 22 L18 18" stroke="#00a3d4" stroke-width="0.7" opacity="0.6"/>
+  <path d="M40 14 L20 12" stroke="#00a3d4" stroke-width="0.7" opacity="0.5"/>
+  <path d="M34 8  L24 6"  stroke="#00a3d4" stroke-width="0.7" opacity="0.4"/>
+
+  <!-- SHOE: side profile -->
+  <path d="M22 28 L42 28 L42 34 C42 35.5, 40.5 36, 39 36 L25 36 C23.5 36, 22 35.5, 22 34 Z"
+        fill="#00d4aa"/>
+  <!-- Heel curve detail -->
+  <path d="M22 30 C20 31, 20 33, 22 34" stroke="#00a3d4" stroke-width="1" fill="none"/>
+  <!-- Vamp line -->
+  <path d="M28 28 C29 31, 31 33, 34 36" stroke="#0a0f14" stroke-width="0.6" fill="none" opacity="0.5"/>
+
+  <!-- TEXT: balanced to the right -->
+  <text x="56" y="24" font-family="Inter,-apple-system,sans-serif" font-size="20" font-weight="700" fill="#e0e8f0">Talio</text>
+  <text x="56" y="34" font-family="Inter,-apple-system,sans-serif" font-size="8"  fill="#7a8a9a" letter-spacing="2.5">COMMUNITY SEARCH</text>
+</svg>

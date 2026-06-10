@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# Generated data files (post-2026-06-10: sharded to stay under CF Pages 25 MiB limit)
+search-data.json
+search-index.json
+search-data-*.json
+search-index-*.json
+metadata.json
+
+# Logs
+*.log
+
+# Environment
+.env
+.DS_Store
+Thumbs.db

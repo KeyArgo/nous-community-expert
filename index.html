@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talio — Discord Community Search</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="Search the entire Nous Research Discord knowledge base. Find expert discussions, tutorials, and community insights on Hermes Agent, open-source models, and more.">
+<meta name="keywords" content="Nous Research, Hermes Agent, Discord, AI, open source, community, knowledge base, LLM, fine-tuning, plugin, MCP">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Talio — Search the Nous Research Discord">
+<meta property="og:description" content="Search 300K+ messages from Hermes Agent, developers, and community projects. Find expert discussions, contributor profiles, and trending topics.">
+<meta property="og:image" content="https://nous-community-expert-dev.pages.dev/og-image.svg">
+<meta property="og:url" content="https://nous-community-expert-dev.pages.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Talio — Search the Nous Research Discord">
+<meta name="twitter:description" content="Search 300K+ messages from Hermes Agent, developers, and community projects.">
+<meta name="twitter:image" content="https://nous-community-expert-dev.pages.dev/og-image.svg">
+<link rel="canonical" href="https://nous-community-expert-dev.pages.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0f14;--surface:#111820;--surface-2:#1a2332;--border:#1e2d3d;--text:#e0e8f0;--text-muted:#7a8a9a;--primary:#0071A9;--primary-light:#00a3d4;--accent:#00d4aa;--danger:#ef4444;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;min-height:100vh}
+  .utility-bar{display:flex;justify-content:space-between;align-items:center;padding:.5rem 1rem;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border);font-size:.7rem;color:var(--text-muted);position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .utility-bar .left,.utility-bar .right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .utility-bar a{color:var(--text-muted);text-decoration:none;transition:color .15s}
+  .utility-bar a:hover{color:var(--primary-light)}
+  .utility-bar .star{display:inline-flex;align-items:center;gap:.3rem;padding:.15rem .5rem;background:rgba(0,163,212,0.08);border:1px solid rgba(0,163,212,0.2);border-radius:10px}
+  .utility-bar .star:hover{background:rgba(0,163,212,0.15);border-color:var(--primary-light)}
+  .utility-bar .status-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.15rem .5rem;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:10px;color:#4ade80}
+  .utility-bar .status-pill::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .container{width:100%;max-width:960px;margin:0 auto;padding:2rem 1rem}
+  header{text-align:center;margin-bottom:1.5rem}
+  .logo{font-size:.7rem;text-transform:uppercase;letter-spacing:3px;color:var(--primary-light);margin-bottom:.3rem}
+  h1{font-size:2rem;font-weight:700;margin-bottom:.3rem}h1 span{color:var(--primary-light)}
+  .subtitle{color:var(--text-muted);font-size:.9rem;margin-bottom:1rem}
+  .stats{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+  .stat{text-align:center}.stat .num{font-size:1.5rem;font-weight:700;color:var(--primary-light);line-height:1}
+  .stat .label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+  .intro{background:linear-gradient(135deg,rgba(0,163,212,0.1),rgba(0,212,170,0.05));border:1px solid var(--primary);border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--text);position:relative}
+  .intro-body{line-height:1.5}
+  .intro-close{position:absolute;top:.5rem;right:.7rem;cursor:pointer;color:var(--text-muted);font-size:1rem}
+  .intro-close:hover{color:var(--text)}
+  .lookup{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:.5rem}
+  .lookup input{padding:.4rem .7rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;outline:none;width:180px}
+  .lookup input:focus{border-color:var(--primary)}
+  .lookup button{padding:.4rem 1rem;background:var(--primary);border:none;border-radius:6px;color:#fff;font-size:.8rem;font-weight:600;cursor:pointer}
+  .lookup button:hover{background:var(--primary-light)}
+  .profile{display:none;margin-bottom:1.2rem;background:var(--surface);border:2px solid var(--primary);border-radius:12px;padding:1.2rem;position:relative}
+  .profile.open{display:block}
+  .profile .close{position:absolute;top:.5rem;right:.8rem;cursor:pointer;color:var(--text-muted);font-size:1.1rem}
+  .profile .close:hover{color:var(--text)}
+  .profile .pname{font-size:1.4rem;font-weight:700;color:var(--primary-light)}
+  .profile .ptitle{font-size:.85rem;color:var(--accent);font-style:italic;margin:0 0 .7rem}
+  .profile .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin-bottom:.6rem}
+  .profile .grid .c{text-align:center;padding:.3rem;background:var(--surface-2);border-radius:6px}
+  .profile .grid .c .n{font-size:1.1rem;font-weight:700;color:var(--primary-light)}
+  .profile .grid .c .l{font-size:.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+  .profile .pb{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.4rem}
+  .profile .pb .b{font-size:.7rem;padding:.15rem .5rem;background:var(--surface-2);border-radius:4px;color:var(--text-muted)}
+  .profile .pch{color:var(--text-muted);font-size:.75rem}
+  .profile .pch span{color:var(--primary-light);margin-right:.2rem}
+  .profile .ach{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+  .profile .ach .a{font-size:.7rem;padding:.15rem .5rem;background:rgba(0,163,212,.1);border:1px solid var(--primary);border-radius:4px;color:var(--primary-light)}
+  .profile .lbst{margin-top:.7rem;padding:.7rem .8rem;background:var(--surface-2);border-radius:8px;border:1px solid var(--border)}
+  .profile .lbst-h{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+  .profile .lbst-rank-line{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+  .profile .lbst-rank-line .lbst-num{font-size:1.6rem;font-weight:700;color:var(--primary-light);line-height:1}
+  .profile .lbst-rank-line .lbst-of{font-size:.78rem;color:var(--text-muted)}
+  .profile .lbst-rank-line .lbst-pct{font-size:.72rem;color:var(--accent);font-weight:600;margin-left:auto}
+  .profile .lbst-row{display:flex;align-items:center;gap:.4rem;font-size:.8rem;margin:.3rem 0;flex-wrap:wrap}
+  .profile .lbst-row .lbst-key{color:var(--text-muted);min-width:3.5rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+  .profile .lbst-awards{list-style:none;padding:0;margin:.3rem 0 0 0}
+  .profile .lbst-awards li{display:flex;align-items:center;gap:.5rem;padding:.2rem 0;font-size:.78rem}
+  .profile .lbst-awards li .lbst-desc{color:var(--text-muted);font-size:.72rem}
+  .profile .lbst-unranked{color:var(--text-muted);font-style:italic;font-size:.78rem}
+  .section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+  .section-label .hlp{font-size:.7rem;cursor:pointer;color:var(--text-muted);padding:0 .3rem;border-radius:50%;border:1px solid var(--border)}
+  .section-label .hlp:hover{color:var(--primary-light);border-color:var(--primary-light)}
+  .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
+  .chart-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;min-width:0}
+  .chart-box canvas{display:block}
+  @media(max-width:900px){.chart-grid,.chart-grid:has(.chart-box-wide){grid-template-columns:1fr}}
+  .list-col .list-item .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted);font-size:.78rem;display:flex;align-items:center;gap:.3rem}
+  .list-col .list-item .name .badge-pill{font-size:.6rem;padding:.05rem .35rem;flex-shrink:0}
+  .list-col .list-item .val{color:var(--primary-light);font-weight:600;font-size:.78rem;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .list-col .list-item .au{color:var(--primary-light);cursor:pointer;overflow:hidden;text-overflow:ellipsis}
+  .list-col .list-item .au:hover{text-decoration:underline}
+  @media(max-width:900px){.list-cols{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.list-cols{grid-template-columns:1fr}}
+  .tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem}
+  .tabs .tab{padding:.25rem .6rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;font-size:.7rem;color:var(--text-muted);cursor:pointer}
+  .tabs .tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
+  .list-item{padding:.25rem 0;font-size:.8rem;display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)}
+  .list-item .name{color:var(--text-muted)}
+  .list-item .val{color:var(--primary-light);font-weight:600}
+  .list-item .date{color:var(--text-muted);font-size:.72rem}
+  .trending{margin-bottom:1rem}
+  .tags{display:flex;gap:.4rem;flex-wrap:wrap}
+  .tag{padding:.35rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:.75rem;color:var(--text-muted);cursor:pointer;transition:all .2s}
+  .tag:hover,.tag.active{background:var(--primary);border-color:var(--primary);color:#fff}
+  .srch{display:flex;gap:.4rem;margin-bottom:.6rem}
+  .srch input{flex:1;padding:.6rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;outline:none}
+  .srch input:focus{border-color:var(--primary)}
+  .srch button{padding:.6rem 1.2rem;background:var(--primary);border:none;border-radius:6px;color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap}
+  .srch button:hover{background:var(--primary-light)}
+  .flt{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem;align-items:center}
+  .flt select,.flt input{padding:.35rem .6rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.75rem;outline:none}
+  .flt .fbtn{padding:.3rem .7rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;color:var(--text-muted);font-size:.75rem;cursor:pointer}
+  .flt .fbtn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+  .adv{display:none;flex-wrap:wrap;gap:.4rem;padding:.6rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:.6rem}
+  .adv.open{display:flex}
+  .adv input{padding:.35rem .6rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.75rem;outline:none;flex:1;min-width:100px}
+  .result{margin-bottom:.6rem;padding:.7rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;position:relative}
+  .result:hover{border-color:var(--primary)}
+  .result .txt{font-size:.82rem;line-height:1.4;color:var(--text-muted);margin-bottom:.3rem;white-space:pre-wrap;overflow:hidden;max-height:4em;word-break:break-word}
+  .result .txt.exp{max-height:none}
+  .result .meta{font-size:.72rem;color:var(--text-muted);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+  .result .meta .ch{color:var(--primary-light)}
+  .result .meta .au{color:var(--primary-light);font-weight:600;cursor:pointer}
+  .result .meta .au:hover{text-decoration:underline}
+  .result .sc{position:absolute;top:.35rem;right:.4rem;font-size:.65rem;color:var(--text-muted)}
+  .result .xpnd{font-size:.75rem;color:var(--primary-light);cursor:pointer;margin-top:.2rem;display:inline-block}
+  .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:100;justify-content:center;align-items:center}
+  .modal.open{display:flex}
+  .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto}
+  .modal-box h3{color:var(--primary-light);margin-bottom:.8rem}
+  .modal-box .item{display:flex;gap:.6rem;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.82rem;color:var(--text-muted)}
+  .modal-box .close{float:right;cursor:pointer;color:var(--text-muted);font-size:1.1rem}
+  .modal-box .close:hover{color:var(--text)}
+  .loading{color:var(--text-muted);padding:.8rem 0;text-align:center;font-size:.85rem}
+  .ds{font-size:.7rem;padding:.2rem .5rem;border-radius:4px;display:inline-block;margin-bottom:.5rem}
+  .ds.load{background:#1a3a2a;color:#4ade80}.ds.rdy{background:#1a3a2a;color:#4ade80}.ds.err{background:#3a1a1a;color:#f87171}
+  footer{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;font-size:.75rem;color:var(--text-muted)}
+  footer a{color:var(--primary-light)}
+  .pg{display:flex;justify-content:center;gap:.4rem;margin-top:.8rem}
+  .pg button{padding:.35rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;color:var(--text);cursor:pointer;font-size:.8rem}
+  .pg button:hover{background:var(--primary);border-color:var(--primary)}
+  .pg button:disabled{opacity:.4;cursor:default}
+  .badge-pill{font-size:.65rem;padding:.15rem .55rem;border-radius:10px;display:inline-flex;align-items:center;gap:.25rem;line-height:1;font-weight:600;letter-spacing:.3px;margin:0 .1rem}
+  .badge-caduceus{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)}
+  .badge-gold{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)}
+  .badge-silver{background:rgba(148,163,184,0.15);color:#94a3b8;border:1px solid rgba(148,163,184,0.3)}
+  .badge-bronze{background:rgba(217,119,6,0.15);color:#d97706;border:1px solid rgba(217,119,6,0.3)}
+  .badge-ribbon{background:rgba(122,138,154,0.1);color:#7a8a9a;border:1px solid rgba(122,138,154,0.15)}
+  .badge-explorer{background:rgba(0,163,212,0.12);color:#00a3d4;border:1px solid rgba(0,163,212,0.25)}
+  .badge-pioneer{background:rgba(139,92,246,0.12);color:#8b5cf6;border:1px solid rgba(139,92,246,0.25)}
+  .badge-streak{background:rgba(239,146,52,0.12);color:#ef9234;border:1px solid rgba(239,146,52,0.25)}
+  .badge-pillar{background:rgba(20,184,166,0.12);color:#14b8a6;border:1px solid rgba(20,184,166,0.25)}
+  .badge-sage{background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.25)}
+  .badge-diplomat{background:rgba(59,130,246,0.12);color:#3b82f6;border:1px solid rgba(59,130,246,0.25)}
+  .profile-section{margin:.8rem 0}
+  .mood-section{padding:.6rem .8rem;background:var(--surface-2);border-radius:8px;border:1px solid var(--border)}
+  .mood-text{font-size:.85rem;color:var(--text);line-height:1.4;font-style:italic}
+  .mood-meta{font-size:.7rem;color:var(--text-muted);margin-top:.3rem}
+  @media(min-width:901px){.sidebar-toggle{display:none!important}#sidebarContent{display:grid!important}}
+  @media(max-width:900px){
+    .stats{gap:.8rem;flex-wrap:wrap}
+    .stat .num{font-size:1.1rem}
+    .stat .label{font-size:.6rem}
+    h1{font-size:1.3rem}
+    .chart-grid,.chart-grid:has(.chart-box-wide){grid-template-columns:1fr}
+    .container{padding:1rem .6rem}
+    .result .meta{flex-wrap:wrap;gap:.3rem;font-size:.65rem}
+    .lookup{flex-direction:column;align-items:stretch;gap:.3rem}
+    .lookup input{width:100%}
+    .srch{flex-direction:column}
+    .srch button{width:100%}
+    .flt{flex-wrap:wrap;gap:.3rem}
+    .list-cols{grid-template-columns:1fr 1fr}
+    .sidebar-toggle{display:block;text-align:center;padding:.5rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:1rem;cursor:pointer;font-size:.85rem;color:var(--text-muted)}
+    .sidebar-toggle:hover{color:var(--text)}
+    #sidebarContent{display:none}
+    #sidebarContent.open{display:grid!important}
+  }
+  @media(max-width:600px){.list-cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="utility-bar">
+  <div class="left">
+    <span class="status-pill">Live</span>
+    <span id="lastUpdated" data-ts="">Loading...</span>
+  </div>
+  <div class="right">
+    <a href="https://github.com/KeyArgo/nous-community-expert-dev" target="_blank" rel="noopener">
+      <span class="star">Star on GitHub</span>
+    </a>
+    <a href="https://github.com/KeyArgo/nous-community-expert-dev/issues" target="_blank" rel="noopener">Issues</a>
+    <a href="#" onclick="showBadgeLegend();return false">Badge Legend</a>
+  </div>
+</div>
+<div class="container">
+<header>
+  <div class="logo"><img src="logo.svg" alt="Talio" style="height:36px;vertical-align:middle;margin-bottom:4px"></div>
+  <h1><span>Talio</span></h1>
+  <p class="subtitle">Search the Nous Research Discord knowledge base</p>
+  <div id="intro" class="intro" style="display:none">
+    <div class="intro-body">
+      <strong>Search 300K+ messages</strong> from the Nous Research Discord, or <span style="color:var(--primary-light);cursor:pointer;text-decoration:underline" onclick="document.getElementById('lu').focus()">type your username</span> to see your stats.
+      <span class="intro-close" onclick="dismissIntro()">✕</span>
+    </div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="lookup">
+    <input type="text" id="lu" placeholder="Your username..." autocomplete="off">
+    <button onclick="lookup()">🔍 Lookup</button>
+    <span id="lr" style="font-size:.8rem;color:var(--text-muted)"></span>
+    <span style="font-size:.7rem;color:var(--text-muted)">Tip: use Author filter below to search by user</span>
+  </div>
+  <div id="ds" class="ds load">Loading…</div>
+</header>
+
+<div id="profile" class="profile"></div>
+
+<div class="sidebar-toggle" onclick="toggleSidebar()" id="sidebarToggle">
+  <span id="sidebarToggleText">📊 Show leaderboard, streaks & top days</span>
+</div>
+<div id="sidebarContent" class="list-cols">
+  <div class="list-col">
+    <div class="section-label">🏆 Leaderboard <span class="hlp" onclick="showBadgeLegend()">?</span></div>
+    <div class="tabs" id="lbTabs"></div>
+    <div id="leaderboard"><div class="loading">Loading…</div></div>
+  </div>
+  <div class="list-col">
+    <div class="section-label">🔥 Streaks</div>
+    <div class="tabs" id="stTabs"></div>
+    <div id="streaks"><div class="loading">Loading…</div></div>
+  </div>
+  <div class="list-col">
+    <div class="section-label">📅 Top Days</div>
+    <div id="topDays"><div class="loading">Loading…</div></div>
+  </div>
+</div>
+
+<div class="trending">
+  <div class="section-label">Trending</div>
+  <div class="tags" id="trendTags"></div>
+</div>
+
+<div class="srch">
+  <input type="text" id="si" placeholder="Search community knowledge..." autocomplete="off">
+  <button onclick="search()">Search</button>
+</div>
+
+<div class="flt">
+  <select id="cf"><option value="">All Channels</option></select>
+  <span class="fbtn active" onclick="setF(this,'all')">All</span>
+  <span class="fbtn" onclick="setF(this,'channel')">Channels</span>
+  <span class="fbtn" onclick="setF(this,'forum')">Forum</span>
+  <span class="fbtn" onclick="toggleAdv()">+ Adv</span>
+  <select id="sort"><option value="rel">Relevance</option><option value="new">Newest</option><option value="old">Oldest</option><option value="msg">Most msgs</option></select>
+</div>
+<div class="adv" id="adv">
+  <input type="text" id="af" placeholder="Author">
+  <input type="text" id="ep" placeholder="Exact phrase">
+  <input type="text" id="ex" placeholder="Exclude terms">
+</div>
+
+<div id="res"></div>
+<div id="pg" class="pg"></div>
+
+<div id="graphSection" style="margin:2rem 0;display:none">
+  <div class="section-label">📊 Community Activity</div>
+
+  <div class="chart-grid">
+    <div class="chart-box chart-box-wide">
+      <div style="display:flex;justify-content:space-between;margin-bottom:.4rem;align-items:center">
+        <span style="color:var(--text-muted);font-size:.8rem">Messages per day</span>
+        <span id="graphRange" style="display:flex;gap:.3rem">
+          <span class="tag active" onclick="setGraphRange(30)">30d</span>
+          <span class="tag" onclick="setGraphRange(60)">60d</span>
+          <span class="tag" onclick="setGraphRange(90)">90d</span>
+          <span class="tag" onclick="setGraphRange(0)">All</span>
+        </span>
+      </div>
+      <canvas id="graphDaily" style="width:100%;height:180px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Channel distribution (chunks)</div>
+      <canvas id="graphChannel" style="width:100%;height:180px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Activity by hour UTC (chunks)</div>
+      <canvas id="graphHour" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Activity by day of week (chunks)</div>
+      <canvas id="graphDow" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">24h x 7d heatmap (chunks)</div>
+      <canvas id="graphHeatmap" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Cumulative contributors over time</div>
+      <canvas id="graphGrowth" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Top 3 channels (chunks per day)</div>
+      <canvas id="graphChannelsTime" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Top contributors (messages)</div>
+      <canvas id="graphAuthors" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Talio — <span id="lu2"></span></p>
+  <p style="margin-top:.4rem">
+    <a href="https://github.com/KeyArgo/nous-community-expert-dev">⭐ Star on GitHub</a> · <a href="https://github.com/inovinlabs/nous-community-expert-dev/blob/main/LICENSE">MIT License</a>
+  </p>
+</footer>
+</div>
+
+<div class="modal" id="badgeModal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal('badgeModal')">✕</span>
+    <h3>🥇 Medals</h3>
+    <div class="item"><span class="badge-pill badge-caduceus">⚕ Founder</span><span style="color:var(--text-muted);font-size:.75rem">teknium — creator of Nous Research</span></div>
+    <div class="item"><span class="badge-pill badge-gold">🏆 Gold</span><span style="color:var(--text-muted);font-size:.75rem">Top 10 contributors</span></div>
+    <div class="item"><span class="badge-pill badge-silver">🥈 Silver</span><span style="color:var(--text-muted);font-size:.75rem">Top 11–25</span></div>
+    <div class="item"><span class="badge-pill badge-bronze">🥉 Bronze</span><span style="color:var(--text-muted);font-size:.75rem">Top 26–50</span></div>
+    <div class="item"><span class="badge-pill badge-ribbon">🎀 Ribbon</span><span style="color:var(--text-muted);font-size:.75rem">Everyone else — you showed up!</span></div>
+    <h3 style="margin-top:1rem">🎖 Awards</h3>
+    <div class="item"><span class="badge-pill badge-explorer">Explorer</span><span style="color:var(--text-muted);font-size:.75rem">Active in 3+ channels</span></div>
+    <div class="item"><span class="badge-pill badge-pioneer">Pioneer</span><span style="color:var(--text-muted);font-size:.75rem">Active since archive began</span></div>
+    <div class="item"><span class="badge-pill badge-streak">Streak</span><span style="color:var(--text-muted);font-size:.75rem">30+ day activity streak</span></div>
+    <div class="item"><span class="badge-pill badge-pillar">Pillar</span><span style="color:var(--text-muted);font-size:.75rem">50+ active days</span></div>
+    <div class="item"><span class="badge-pill badge-sage">Sage</span><span style="color:var(--text-muted);font-size:.75rem">High-value convos (15+ msgs/chunk)</span></div>
+    <div class="item"><span class="badge-pill badge-diplomat">Diplomat</span><span style="color:var(--text-muted);font-size:.75rem">Active in all 4 channels</span></div>
+    <p style="color:var(--text-muted);font-size:.75rem;margin-top:.8rem">Awards are earned from lifetime stats and never revoked.</p>
+  </div>
+</div>
+
+<script>
+// ─── State ─────────────────────────────────────────────
+let chunks=[], searchIndex=null, dataReady=false, results=[], page=0, PS=10;
+let _data=null, _lbMode='overall', _count=15;
+let _graphRange=30;
+
+const MEDAL_ICONS={caduceus:'⚕',gold:'🏆',silver:'🥈',bronze:'🥉',ribbon:'🎀'};
+// Short descriptions for the profile "Leaderboard Standing" section. Kept in
+// sync with the longer descriptions in #badgeModal above; if you change one,
+// change both. Order of medal list also defines display order in the standing
+// section ("Medal:" line).
+const MEDAL_DESCS={
+  caduceus:'teknium — creator of Nous Research',
+  gold:'Top 10 contributors',
+  silver:'Top 11–25',
+  bronze:'Top 26–50',
+  ribbon:'Top 51+ — you showed up!',
+};
+const AWARD_DESCS={
+  explorer:'Active in 3+ channels',
+  pioneer:'Active since archive began',
+  streak:'30+ day activity streak',
+  pillar:'50+ active days',
+  sage:'High-value convos (15+ msgs/chunk)',
+  diplomat:'Active in all 4 channels',
+};
+function renderBadges(medal,awards){
+  let html='';
+  if(Array.isArray(medal)&&medal.length===2){
+    const[id,name]=medal;
+    html+='<span class="badge-pill badge-'+id+'">'+ (MEDAL_ICONS[id]||'') +' '+esc(name)+'</span>';
+  }
+  if(Array.isArray(awards)){
+    awards.slice(0,2).forEach(a=>{
+      if(Array.isArray(a)&&a.length===2){
+        const[id,name]=a;
+        html+='<span class="badge-pill badge-'+id+'">'+esc(name)+'</span>';
+      }
+    });
+  }
+  return html;
+}
+
+// ─── Load ──────────────────────────────────────────────
+async function load(){
+  const s=document.getElementById('ds');
+  try{
+    // 1) Metadata first — gives us shard counts so we know how many
+    //    search-data-N.json / search-index-N.json files to fetch.
+    const mr=await fetch('metadata.json');
+    if(!mr.ok)throw new Error('metadata.json: HTTP '+mr.status);
+    const meta=await mr.json();
+    const nData=(meta.shards&&meta.shards.data)||1;
+    const nIndex=(meta.shards&&meta.shards.index)||1;
+
+    // 2) All shards in parallel. dataShards[0] carries the envelope
+    //    (stats/leaderboard/etc.); each shard carries its own chunks slice.
+    //    indexShards[0] carries doc_count/avg_dl/docs; terms merge across all.
+    const [dataShards,indexShards]=await Promise.all([
+      Promise.all(Array.from({length:nData},(_,i)=>fetch(`search-data-${i}.json`).then(r=>{
+        if(!r.ok)throw new Error(`search-data-${i}.json: HTTP ${r.status}`);
+        return r.json();
+      }))),
+      Promise.all(Array.from({length:nIndex},(_,i)=>fetch(`search-index-${i}.json`).then(r=>{
+        if(!r.ok)throw new Error(`search-index-${i}.json: HTTP ${r.status}`);
+        return r.json();
+      }))),
+    ]);
+
+    // 3) Reassemble. Envelope comes from the first data shard; chunks are
+    //    concatenated in shard order (which matches original chunk order).
+    const d=dataShards[0];
+    d.chunks=[].concat(...dataShards.map(x=>x.chunks||[]));
+    searchIndex={
+      terms:Object.assign({}, ...indexShards.map(x=>x.terms||{})),
+      doc_count:indexShards[0].doc_count,
+      avg_dl:indexShards[0].avg_dl,
+      docs:indexShards[0].docs||[],
+    };
+    chunks=d.chunks||[]; dataReady=true; _data=d;
+    s.textContent='Ready'; s.className='ds rdy';
+    renderStats(d); renderTrend(d); renderLB(d); renderStreaks(d); renderDays(d); renderChannels(d);
+    const luEl=document.getElementById('lastUpdated');
+    if(luEl&&d.last_updated){luEl.dataset.ts=d.last_updated;updateLastUpdated();}
+    setInterval(updateLastUpdated,30000);
+    const gs=document.getElementById('graphSection');
+    if(gs){gs.style.display='block';renderGraphCharts();}
+    initFromURL();
+    showIntroIfNeeded();
+  }catch(e){s.textContent='Error: '+e.message;s.className='ds err'}
+}
+
+// ─── Stats ─────────────────────────────────────────────
+function renderStats(d){
+  const s=d.stats||{};
+  document.getElementById('stats').innerHTML=
+    `<div class=stat><div class=num>${(s.total_chunks||0).toLocaleString()}</div><div class=label>Chunks</div></div>`+
+    `<div class=stat><div class=num>${(s.total_messages||0).toLocaleString()}</div><div class=label>Messages</div></div>`+
+    `<div class=stat><div class=num>${(s.total_dates||0).toLocaleString()}</div><div class=label>Days</div></div>`+
+    `<div class=stat><div class=num>${(s.unique_authors||0).toLocaleString()}</div><div class=label>Authors</div></div>`;
+}
+
+// ─── User Lookup ───────────────────────────────────────
+function lookup(n){
+  const i=document.getElementById('lu'),r=document.getElementById('lr');
+  const u=(n||i.value).trim();
+  if(!u){r.textContent='Enter a username';return;}
+  const p=getProfile(u);
+  if(!p){r.textContent='Not found';return;}
+  r.textContent=''; showProfile(p);
+  const hp=new URLSearchParams(window.location.hash.slice(1));
+  hp.set('p',p.name);
+  history.replaceState(null,'','#'+hp.toString());
+}
+document.getElementById('lu').addEventListener('keydown',e=>{if(e.key==='Enter')lookup()});
+
+function getProfile(name){
+  const l=name.toLowerCase();
+  const ac=chunks.filter(c=>(c.authors||[]).some(a=>a.toLowerCase()===l));
+  if(!ac.length)return null;
+  const chs={},dates=[];
+  for(const c of ac){
+    const ch=c.channel||'unknown'; chs[ch]=(chs[ch]||0)+1;
+    const st=(c.start_time||'').slice(0,10); if(st)dates.push(st);
+  }
+  dates.sort();
+  const lb=(_data&&_data.leaderboard)||[];
+  const idx=lb.findIndex(u=>u.name.toLowerCase()===l);
+  const entry=lb[idx];
+  const totalMessages=ac.reduce((sum,c)=>sum+(c.message_count||0),0);
+  return{
+    name, totalChunks:ac.length, totalMessages,
+    channels:Object.entries(chs).sort((a,b)=>b[1]-a[1]),
+    firstSeen:dates[0]||'', lastSeen:dates[dates.length-1]||'',
+    rank:idx+1, badges:entry?entry.badges:[], activeDays:new Set(dates).size
+  };
+}
+
+function showProfile(p){
+  const e=document.getElementById('profile');
+  const title=getTitle(p);
+  const achv=[];
+  if(p.totalMessages>=50000)achv.push('🗣️ Chatterbox');
+  else if(p.totalMessages>=10000)achv.push('💬 Wordsmith');
+  if(p.totalChunks>=1000)achv.push('📦 Heavy Lifter');
+  if(p.channels.length>=3)achv.push('🌍 Omnipresent');
+  if(p.activeDays>=60)achv.push('📆 Dedicated');
+  if(p.activeDays>=30)achv.push('🔥 Consistent');
+  if(p.rank>0&&p.rank<=10)achv.push('⭐ Hall of Fame');
+  if(!p.totalMessages&&p.totalChunks>0)achv.push('👻 Silent Observer');
+
+  // Leaderboard Standing block — lists rank with full context, medal, and
+  // awards explicitly. Pulled from the same leaderboard entry the badge
+  // modal already references, so it stays in sync with overall #1 ordering.
+  const lbAll=((_data&&_data.leaderboard)||[]);
+  const lbTotal=lbAll.length;
+  const lbTotalAuthors=((_data&&_data.stats&&_data.stats.unique_authors)||lbTotal);
+  const lbEntry=lbAll.find(x=>x.name.toLowerCase()===p.name.toLowerCase());
+
+  let standingHtml='';
+  if(lbEntry){
+    const medal=Array.isArray(lbEntry.medal)&&lbEntry.medal.length===2?lbEntry.medal:null;
+    const awards=Array.isArray(lbEntry.awards)?lbEntry.awards:[];
+    // "top X%" of total authors where X is small for high rank.
+    // Rank 1 of 6177 → top (1/6177)*100 = 0.016% (the very top).
+    // Rank N of N   → top 100% (everyone is in the top 100%).
+    const pct=lbTotalAuthors>0&&p.rank>0
+      ? (p.rank/lbTotalAuthors*100)
+      : null;
+    const pctStr=pct!==null
+      ? (pct>=1? `top ${pct.toFixed(1)}%` : `top ${pct.toFixed(2)}%`)
+      : '';
+    const medalPill=medal
+      ? `<span class="badge-pill badge-${medal[0]}">${MEDAL_ICONS[medal[0]]||''} ${esc(medal[1])}</span>`
+      : '<span class="lbst-unranked">No medal</span>';
+    const medalDesc=medal&&MEDAL_DESCS[medal[0]]?` <span class="lbst-desc">— ${esc(MEDAL_DESCS[medal[0]])}</span>`:'';
+    const awardsHtml=awards.length
+      ? `<ul class="lbst-awards">${awards.filter(a=>Array.isArray(a)&&a.length===2).map(a=>{
+          const desc=AWARD_DESCS[a[0]]?` <span class="lbst-desc">— ${esc(AWARD_DESCS[a[0]])}</span>`:'';
+          return `<li><span class="badge-pill badge-${a[0]}">${esc(a[1])}</span>${desc}</li>`;
+        }).join('')}</ul>`
+      : '<div class="lbst-unranked">No awards yet</div>';
+
+    standingHtml=`<div class="lbst">
+      <div class="lbst-h">🏆 Leaderboard Standing</div>
+      <div class="lbst-rank-line">
+        <span class="lbst-num">#${p.rank.toLocaleString()}</span>
+        <span class="lbst-of">of ${lbTotal.toLocaleString()} on board · of ${lbTotalAuthors.toLocaleString()} total authors</span>
+        ${pctStr?`<span class="lbst-pct">${pctStr}</span>`:''}
+      </div>
+      <div class="lbst-row"><span class="lbst-key">Medal</span>${medalPill}${medalDesc}</div>
+      <div class="lbst-row" style="flex-direction:column;align-items:flex-start;gap:.2rem"><span class="lbst-key">Awards</span>${awardsHtml}</div>
+    </div>`;
+  }else if(p.rank===0){
+    // Author has chunks but isn't in the top-100 leaderboard.
+    standingHtml=`<div class="lbst">
+      <div class="lbst-h">🏆 Leaderboard Standing</div>
+      <div class="lbst-unranked">Not in top ${lbTotal} yet — keep contributing!</div>
+    </div>`;
+  }
+
+  e.className='profile open';
+  e.innerHTML=`<span class=close onclick="document.getElementById('profile').className='profile'">✕</span>
+    <div class=pname>${esc(p.name)}</div>
+    <div class=ptitle>${title}</div>
+    <div class=grid>
+      ${p.rank>0?`<div class=c><div class=n>#${p.rank}</div><div class=l>Rank</div></div>`:''}
+      <div class=c><div class=n>${p.totalChunks.toLocaleString()}</div><div class=l>Chunks</div></div>
+      <div class=c><div class=n>${p.totalMessages.toLocaleString()}</div><div class=l>Messages</div></div>
+      <div class=c><div class=n>${p.channels.length}</div><div class=l>Channels</div></div>
+      <div class=c><div class=n>${p.firstSeen||'—'}</div><div class=l>First</div></div>
+      <div class=c><div class=n>${p.lastSeen||'—'}</div><div class=l>Last</div></div>
+      </div>
+      ${(()=>{
+      const lbEntry2=(_data&&_data.leaderboard||[]).find(x=>x.name.toLowerCase()===p.name.toLowerCase());
+      if(!lbEntry2)return '';
+      const html=renderBadges(lbEntry2.medal, lbEntry2.awards);
+      return html ? `<div class=pb>${html}</div>` : '';
+      })()}
+      ${standingHtml}
+    <div class="profile-section mood-section" id="moodSection">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:.3rem">🌡️ Vibe</div>
+      <div class="mood-text" id="moodText">Loading vibe…</div>
+      <div class="mood-meta" id="moodMeta"></div>
+    </div>
+    ${achv.length?`<div class=ach>${achv.map(a=>`<span class=a>${a}</span>`).join('')}</div>`:''}
+    <div class=pch>Active in: ${p.channels.map(([c,n])=>`<span>${esc(c)}</span>(${n})`).join(', ')}</div>`;
+  loadMood(p.name);
+}
+
+function getTitle(p){
+  const{c:p1,totalChunks:p2,totalMessages:p3,channels:p4}=p,{length:p5}=p4;
+  const r=p2>0?p3/p2:0;
+  if(p2>=5000)return'The Unstoppable Force ⚔️';
+  if(p3>=10000)return'Discord Whisperer 🗣️';
+  if(r>25&&p2>100)return'The Endless Philosopher 🎭';
+  if(r<5&&p2>500)return'Sniper of Wisdom 🎯';
+  if(p5>=4)return'Dimensional Rifter 🌈';
+  if(p2>=2000)return'The Relentless 🔥';
+  if(p3>=5000&&p2<500)return'Verbal Ninja 🥷';
+  if(p2>=1000)return'Sage of the Community 🌟';
+  if(p2>=500)return'Rising Star 💫';
+  if(p2>=100)return'True Believer 🙌';
+  return'Fresh Voice 🌱';
+}
+
+// ─── Mood (T14) ─────────────────────────────────────────
+async function loadMood(username){
+  const el=document.getElementById('moodText');
+  const meta=document.getElementById('moodMeta');
+  if(!el)return;
+  el.textContent='Loading vibe…';
+  try{
+    const entry=(_data?.leaderboard||[]).find(u=>u.name===username);
+    if(entry?.mood_cached){
+      el.textContent=entry.mood_cached.vibe;
+      meta.textContent='Updated '+formatRelative(entry.mood_cached.updated);
+      return;
+    }
+    const resp=await fetch(`https://talio-mood.workers.dev/?user=${encodeURIComponent(username)}`);
+    const data=await resp.json();
+    el.textContent=data.vibe||'no data';
+    meta.textContent='Updated '+formatRelative(data.updated);
+  }catch(e){
+    el.textContent='(mood unavailable)';
+  }
+}
+
+// ─── Badge Modal ───────────────────────────────────────
+function showBadgeLegend(){document.getElementById('badgeModal').className='modal open';}
+function closeModal(id){document.getElementById(id).className='modal';}
+
+function formatRelative(iso){
+  if(!iso)return '-';
+  const t=new Date(iso).getTime();
+  if(isNaN(t))return iso;
+  const d=Math.floor((Date.now()-t)/1000);
+  if(d<60)return 'just now';
+  if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';
+  if(d<604800)return Math.floor(d/86400)+'d ago';
+  return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function updateLastUpdated(){
+  const el=document.getElementById('lastUpdated');
+  if(!el)return;
+  const ts=el.dataset.ts;
+  if(ts)el.textContent='Updated '+formatRelative(ts);
+}
+
+function initFromURL(){
+  const hash=window.location.hash.slice(1);
+  if(!hash)return;
+  const params=new URLSearchParams(hash);
+  if(params.has('q')){
+    document.getElementById('si').value=params.get('q');
+    search();
+  }
+  if(params.has('author')){
+    document.getElementById('af').value=params.get('author');
+    toggleAdv();
+    if(!params.has('q'))search();
+  }
+  if(params.has('p')){lookup(params.get('p'));}
+}
+
+function shareSearch(){
+  if(navigator.share){navigator.share({title:'Talio Search',url:window.location.href});}
+  else{navigator.clipboard.writeText(window.location.href);flash('Link copied');}
+}
+
+function shareProfile(){
+  if(navigator.share){navigator.share({title:'Talio Profile',url:window.location.href});}
+  else{navigator.clipboard.writeText(window.location.href);flash('Link copied');}
+}
+
+function dismissIntro(){
+  const el=document.getElementById('intro');if(el)el.style.display='none';
+  try{localStorage.setItem('talio_intro_dismissed','1');}catch(e){}
+}
+
+function showIntroIfNeeded(){
+  try{if(localStorage.getItem('talio_intro_dismissed'))return;}catch(e){return;}
+  const el=document.getElementById('intro');if(el)el.style.display='block';
+}
+
+function flash(msg){
+  const el=document.createElement('div');
+  el.textContent=msg;
+  el.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);padding:.5rem 1rem;border-radius:6px;border:1px solid var(--border);z-index:9999;font-size:.85rem';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1500);
+}
+
+// ─── Trending ──────────────────────────────────────────
+function renderTrend(d){
+  const q=d.sample_queries||[],el=document.getElementById('trendTags');
+  if(!q.length){el.innerHTML='<span class=tag style=cursor:default;opacity:.5>No data</span>';return;}
+  el.innerHTML=q.map(t=>`<span class=tag onclick="qS('${esc(t)}')">${esc(t)}</span>`).join('');
+}
+function qS(q){document.getElementById('si').value=q;search();}
+
+// ─── Leaderboard ───────────────────────────────────────
+function renderLB(d){
+  renderTabs();
+  const el=document.getElementById('leaderboard');
+  const all=d.leaderboard||[];
+  const chLB=d.channel_leaderboards||{};
+  let list;
+  if(_lbMode==='overall')list=all;
+  else list=chLB[_lbMode]||[];
+  const cnt=Math.min(_count,list.length);
+  if(!list.length){el.innerHTML='<div class=loading>No data</div>';return;}
+  el.innerHTML=countToggles()+
+    list.slice(0,cnt).map((u,i)=>{
+      const name=u.name||'?', msgs=u.total_messages||u.chunks||0;
+      const badgesHtml=renderBadges(u.medal, u.awards);
+      return `<div class=list-item><span class=name><span style=color:var(--text-muted);font-size:.7rem>${i+1}.</span> <span class=au onclick="lU('${esc(name)}')">${esc(name)}</span> ${badgesHtml}</span><span class=val>${msgs.toLocaleString()}</span></div>`;
+    }).join('');
+}
+
+function renderTabs(){
+  const el=document.getElementById('lbTabs');
+  const chs=_data&&_data.channel_leaderboards?Object.keys(_data.channel_leaderboards):[];
+  el.innerHTML=['overall',...chs].map(c=>
+    `<span class=tab${_lbMode===c?' active':''} onclick="switchLB('${c}')">${c==='overall'?'Overall':c.replace('community-projects-showcase','Projects').replace('plugins-skills-and-skins','Plugins').replace('hermes-agent','#hermes').replace('developers','#dev')}</span>`
+  ).join('');
+}
+
+function switchLB(m){_lbMode=m;if(_data)renderLB(_data);}
+function setCount(n){_count=n;if(_data){renderLB(_data);renderStreaks(_data);renderDays(_data);}}
+function countToggles(){
+  return `<div style=margin-bottom:.4rem;display:flex;gap:.3rem;flex-wrap:wrap>${
+    [15,50,100].map(n=>`<span class="tag${_count===n?' active':''}" onclick=setCount(${n})>${n}</span>`).join('')
+  }</div>`;
+}
+
+// ─── Streaks ───────────────────────────────────────────
+function renderStreaks(d){
+  const el=document.getElementById('streaks');
+  const s=d.streaks||[];
+  const cnt=Math.min(_count,s.length);
+  if(!s.length){el.innerHTML='<div class=loading>No data</div>';return;}
+  el.innerHTML=s.slice(0,cnt).map((u,i)=>
+    `<div class=list-item><span class=name>${i+1}. <span onclick="lU('${esc(u.name)}')" style=color:var(--primary-light);cursor:pointer>${esc(u.name)}</span></span><span class=val>${u.max_streak}d</span></div>`
+  ).join('');
+}
+
+// ─── Top Days ──────────────────────────────────────────
+function renderDays(d){
+  const el=document.getElementById('topDays');
+  const days=d.top_days||[];
+  const cnt=Math.min(_count,days.length);
+  if(!days.length){el.innerHTML='<div class=loading>No data</div>';return;}
+  el.innerHTML=days.slice(0,cnt).map(d=>
+    `<div class=list-item><span class=date>${esc(d.date)}</span><span class=val>${(d.count||0).toLocaleString()}</span></div>`
+  ).join('');
+}
+
+// ─── Channels ──────────────────────────────────────────
+function renderChannels(d){
+  const sel=document.getElementById('cf');
+  const chs=_data&&_data.stats&&_data.stats.channels?Object.keys(_data.stats.channels):[];
+  if(chs.length)sel.innerHTML='<option value="">All Channels</option>'+chs.map(c=>`<option value="${esc(c)}">${esc(c).replace('community-projects-showcase','Projects').replace('plugins-skills-and-skins','Plugins')}</option>`).join('');
+  else{
+    const s=new Set(chunks.map(c=>c.channel).filter(Boolean));
+    if(s.size)sel.innerHTML='<option value="">All Channels</option>'+[...s].map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  }
+}
+
+// ─── Filters ───────────────────────────────────────────
+function setF(el,t){document.querySelectorAll('.fbtn[onclick^=setF]').forEach(b=>b.classList.remove('active'));el.classList.add('active');window._t=t;search();}
+function toggleAdv(){document.getElementById('adv').classList.toggle('open');}
+
+// ─── BM25 ──────────────────────────────────────────────
+function highlightText(text, query){
+  if(!query||!text)return esc(text);
+  const escaped=esc(text);
+  const terms=query.toLowerCase().split(/[^a-z0-9]+/).filter(t=>t.length>1);
+  if(!terms.length)return escaped;
+  let result=escaped;
+  for(const term of terms){
+    const safe=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re=new RegExp('('+safe+')','gi');
+    result=result.replace(re,'<mark style="background:rgba(0,163,212,0.3);color:var(--primary-light);border-radius:2px;padding:0 2px">$1</mark>');
+  }
+  return result;
+}
+
+function tok(t){return(t||'').toLowerCase().split(/[^a-z0-9]+/).filter(t=>t.length>1);}
+function bm25(q){
+  if(!searchIndex||!chunks.length)return chunks.map(()=>0);
+  const t=searchIndex.terms||{}, d=searchIndex.docs||[], dc=searchIndex.doc_count||chunks.length;
+  const ad=searchIndex.avg_dl||100, k1=1.5, b=0.75;
+  const qt=tok(q); if(!qt.length)return chunks.map(()=>0);
+  const s=new Float64Array(chunks.length);
+  for(const term of qt){
+    const p=t[term]; if(!p)continue;
+    const idf=Math.log((dc-p.length+0.5)/(p.length+0.5)+1);
+    for(const[di,tf]of p){
+      if(di>=chunks.length)continue;
+      const dl=di<d.length?(d[di].len||ad):ad;
+      const den=tf+k1*(1-b+b*(dl/ad));
+      if(den)s[di]+=idf*(tf*(k1+1))/den;
+    }
+  }
+  return s;
+}
+
+function search(){
+  const q=document.getElementById('si').value.trim();
+  const af=document.getElementById('af').value.trim().toLowerCase();
+  const ep=document.getElementById('ep').value.trim().toLowerCase();
+  const ex=document.getElementById('ex').value.trim().toLowerCase();
+  const ch=document.getElementById('cf').value, s=document.getElementById('sort').value;
+  const tf=window._t||'all';
+  if(!q&&!af&&!ep){document.getElementById('res').innerHTML='<p style=color:var(--text-muted);text-align:center;padding:2rem;font-size:.9rem>Enter a search term or author name</p>';document.getElementById('pg').innerHTML='';return;}
+  const xl=ex?ex.split(',').map(t=>t.trim()).filter(Boolean):[];
+  let useBM25=q.length>0, r=[];
+  if(useBM25&&dataReady&&searchIndex){
+    const scores=bm25(q), idx=Array.from({length:chunks.length},(_,i)=>i);
+    idx.sort((a,b)=>scores[b]-scores[a]);
+    for(const i of idx){
+      if(scores[i]<0.005)break;
+      const c=chunks[i],txt=(c.text||'').toLowerCase(),aa=(c.authors||[]).map(a=>a.toLowerCase());
+      if(af&&!aa.some(a=>a.includes(af)))continue;
+      if(ch&&c.channel!==ch)continue;
+      if(ep&&!txt.includes(ep))continue;
+      if(tf==='channel'&&c.type!=='channel_chunk')continue;
+      if(tf==='forum'&&c.type!=='forum_chunk')continue;
+      if(xl.some(x=>txt.includes(x)))continue;
+      r.push({c,sc:scores[i]});
+    }
+  }else{
+    for(const c of chunks){
+      const txt=(c.text||'').toLowerCase(),aa=(c.authors||[]).map(a=>a.toLowerCase());
+      if(af&&!aa.some(a=>a.includes(af)))continue;
+      if(ch&&c.channel!==ch)continue;
+      if(ep&&!txt.includes(ep))continue;
+      if(tf==='channel'&&c.type!=='channel_chunk')continue;
+      if(tf==='forum'&&c.type!=='forum_chunk')continue;
+      if(xl.some(x=>txt.includes(x)))continue;
+      r.push({c,sc:0});
+    }
+  }
+  if(s==='new')r.sort((a,b)=>(b.c.start_time||'').localeCompare(a.c.start_time||''));
+  else if(s==='old')r.sort((a,b)=>(a.c.start_time||'').localeCompare(b.c.start_time||''));
+  else if(s==='msg')r.sort((a,b)=>(b.c.message_count||0)-(a.c.message_count||0));
+  results=r; page=0; renderRes();
+  const qHash=document.getElementById('si').value.trim();
+  const aHash=document.getElementById('af').value.trim();
+  const hp=new URLSearchParams();
+  if(qHash)hp.set('q',qHash);
+  if(aHash)hp.set('author',aHash);
+  const str=hp.toString();
+  history.replaceState(null,'',str?'#'+str:window.location.pathname);
+}
+
+function renderRes(){
+  const el=document.getElementById('res'),pg=document.getElementById('pg');
+  const st=page*PS, p=results.slice(st,st+PS);
+  if(!results.length){el.innerHTML='<p style=color:var(--text-muted);text-align:center;padding:2rem;font-size:.9rem>No results</p>';pg.innerHTML='';return;}
+  el.innerHTML=`<p style=color:var(--text-muted);font-size:.8rem;margin-bottom:.6rem><span style=float:right;cursor:pointer onclick=shareSearch()>📤 Share</span>${st+1}–${Math.min(st+PS,results.length)} of ${results.length}</p>`+
+    p.map(r=>renderChunk(r)).join('');
+  const tp=Math.ceil(results.length/PS);
+  if(tp<=1){pg.innerHTML='';return;}
+  pg.innerHTML=`<button onclick="gP(${page-1})" ${page===0?'disabled':''}>‹</button>`+
+    `<span style=padding:.3rem;color:var(--text-muted);font-size:.8rem>${page+1}/${tp}</span>`+
+    `<button onclick="gP(${page+1})" ${page>=tp-1?'disabled':''}>›</button>`;
+}
+function gP(n){page=n;renderRes();window.scrollTo({top:document.getElementById('res').offsetTop-20,behavior:'smooth'});}
+
+function renderChunk(r){
+  const c=r.c, txt=c.text||'', aa=c.authors||[], st=c.start_time||'', et=c.end_time||'';
+  const ds=st?fd(st):'', dr=et?ds+' → '+fd(et):ds, ch=c.channel||'', mc=c.message_count||0;
+  const sp=r.sc?(r.sc*100).toFixed(1)+'%':'', id=c.id||Math.random().toString(36).slice(2);
+  const q=document.getElementById('si').value.trim();
+  const hi=highlightText(txt, q);
+  const etxt=hi.length>300?hi.slice(0,300)+'…':hi;
+  return `<div class=result onclick="togT(this,'${id}')">
+    <div class=txt id=t_${id}>${etxt}</div>
+    ${sp?`<div class=sc>${sp}</div>`:''}
+    <div class=meta><span class=ch>${esc(ch)}</span><span>${esc(dr)}</span><span>${mc} msgs</span>${
+      aa.slice(0,3).map(a=>`<span class=au onclick="event.stopPropagation();lU('${esc(a)}')">${esc(a)}</span>`).join(', ')}
+    </div>
+    ${etxt.length>250?`<span class=xpnd id=x_${id}>▾ More</span>`:''}
+  </div>`;
+}
+
+function togT(el,id){
+  const t=document.getElementById('t_'+id),x=document.getElementById('x_'+id);
+  if(!t)return; const e=t.classList.toggle('expanded');
+  if(x)x.textContent=e?'▴ Less':'▾ More';
+}
+
+// ─── Shared ────────────────────────────────────────────
+function lU(n){closeProfile();lookup(n);}
+function closeProfile(){document.getElementById('profile').className='profile';}
+function toggleSidebar(){
+  const el=document.getElementById('sidebarContent');
+  const txt=document.getElementById('sidebarToggleText');
+  const open=el.classList.toggle('open');
+  txt.textContent=open?'✕ Hide leaderboard':'📊 Show leaderboard, streaks & top days';
+}
+
+// ─── Graphs (T8) ──────────────────────────────────────
+function setGraphRange(n){
+  _graphRange=n;
+  document.querySelectorAll('#graphRange .tag').forEach(t=>t.classList.remove('active'));
+  if(event&&event.target)event.target.classList.add('active');
+  renderDailyChart();
+}
+
+function drawLine(canvas,points,color,opts){
+  if(!canvas)return;
+  opts=opts||{};
+  const ctx=canvas.getContext('2d');
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  canvas.width=w*2;canvas.height=h*2;
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,w,h);
+  if(!points.length)return;
+  const padTop=20,padBot=22,padL=36,padR=10;
+  const plotW=w-padL-padR,plotH=h-padTop-padBot;
+  const stepX=plotW/Math.max(points.length-1,1);
+  const maxV=Math.max.apply(null,points)||1;
+  ctx.strokeStyle=color;
+  ctx.lineWidth=opts.width||1.5;
+  ctx.beginPath();
+  points.forEach((v,i)=>{
+    const x=padL+i*stepX;
+    const y=padTop+plotH-(v/maxV)*plotH;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  if(opts.fill){
+    ctx.lineTo(padL+(points.length-1)*stepX,padTop+plotH);
+    ctx.lineTo(padL,padTop+plotH);
+    ctx.closePath();
+    ctx.fillStyle=color+'22';
+    ctx.fill();
+  }
+  // Y-axis labels (0 and max)
+  ctx.fillStyle='#7a8a9a';
+  ctx.font='10px Inter,sans-serif';
+  ctx.textAlign='right';
+  ctx.fillText(opts.yMaxLabel||maxV.toLocaleString(),padL-4,padTop+4);
+  ctx.fillText('0',padL-4,padTop+plotH);
+  // X-axis date labels
+  if(opts.xDates&&opts.xDates.length===points.length){
+    const ticks=Math.min(6,points.length);
+    const step=Math.max(1,Math.floor(points.length/ticks));
+    ctx.textAlign='center';
+    for(let i=0;i<points.length;i+=step){
+      const x=padL+i*stepX;
+      const d=opts.xDates[i]||'';
+      const lbl=d.length>=10?d.slice(5):d;
+      ctx.fillText(lbl,x,padTop+plotH+12);
+    }
+  }
+}
+
+function drawBars(canvas,labels,values,color,opts){
+  if(!canvas)return;
+  opts=opts||{};
+  const ctx=canvas.getContext('2d');
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  canvas.width=w*2;canvas.height=h*2;
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,w,h);
+  if(!values.length)return;
+  const padTop=opts.valueLabels?16:6,padBot=opts.labels?18:6,padL=opts.valueLabels?38:6,padR=4;
+  const plotW=w-padL-padR,plotH=h-padTop-padBot;
+  const maxV=Math.max.apply(null,values)||1;
+  const slot=plotW/values.length;
+  const bw=slot*0.7;
+  const gap=slot*0.3;
+  values.forEach((v,i)=>{
+    const x=padL+i*slot+gap/2;
+    const bh=(v/maxV)*plotH;
+    ctx.fillStyle=color;
+    ctx.fillRect(x,padTop+plotH-bh,bw,bh);
+    if(opts.valueLabels&&bh>0){
+      ctx.fillStyle='#e0e8f0';
+      ctx.font='9px Inter,sans-serif';
+      ctx.textAlign='right';
+      ctx.fillText(v.toLocaleString(),x+bw,padTop+plotH-bh-2);
+    }
+  });
+  if(opts.labels){
+    ctx.fillStyle='#7a8a9a';
+    ctx.font='10px Inter,sans-serif';
+    ctx.textAlign='center';
+    const ticks=Math.min(labels.length,Math.floor(plotW/40));
+    const step=Math.max(1,Math.ceil(labels.length/ticks));
+    labels.forEach((l,i)=>{
+      if(i%step!==0&&i!==labels.length-1)return;
+      ctx.fillText(String(l).slice(0,8),padL+i*slot+slot/2,padTop+plotH+12);
+    });
+  }
+}
+
+function drawMultiLine(canvas,series,colors,opts){
+  if(!canvas)return;
+  opts=opts||{};
+  const ctx=canvas.getContext('2d');
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  canvas.width=w*2;canvas.height=h*2;
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,w,h);
+  if(!series.length)return;
+  const padTop=24,padBot=opts.xDates?22:8,padL=36,padR=10;
+  const plotW=w-padL-padR,plotH=h-padTop-padBot;
+  const allVals=series.flatMap(s=>s.values);
+  const maxV=Math.max.apply(null,allVals)||1;
+  const stepX=plotW/Math.max(series[0].values.length-1,1);
+  series.forEach((s,idx)=>{
+    ctx.strokeStyle=colors[idx%colors.length];
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    s.values.forEach((v,i)=>{
+      const x=padL+i*stepX;
+      const y=padTop+plotH-(v/maxV)*plotH;
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+  });
+  // Y-axis labels
+  ctx.fillStyle='#7a8a9a';
+  ctx.font='10px Inter,sans-serif';
+  ctx.textAlign='right';
+  ctx.fillText(maxV.toLocaleString(),padL-4,padTop+4);
+  ctx.fillText('0',padL-4,padTop+plotH);
+  // X-axis date labels
+  if(opts.xDates&&opts.xDates.length===series[0].values.length){
+    const ticks=Math.min(6,series[0].values.length);
+    const step=Math.max(1,Math.floor(series[0].values.length/ticks));
+    ctx.textAlign='center';
+    for(let i=0;i<series[0].values.length;i+=step){
+      const x=padL+i*stepX;
+      const d=opts.xDates[i]||'';
+      const lbl=d.length>=10?d.slice(5):d;
+      ctx.fillText(lbl,x,padTop+plotH+12);
+    }
+  }
+  // Legend
+  ctx.font='10px Inter,sans-serif';
+  ctx.textAlign='left';
+  series.forEach((s,idx)=>{
+    ctx.fillStyle=colors[idx%colors.length];
+    ctx.fillRect(padL,4+idx*12,8,8);
+    ctx.fillStyle='#7a8a9a';
+    ctx.fillText(s.name.slice(0,18),padL+12,12+idx*12);
+  });
+}
+
+function drawHeatmap(canvas,matrix){
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  canvas.width=w*2;canvas.height=h*2;
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,w,h);
+  const rows=matrix.length;
+  const cols=matrix[0].length;
+  const maxV=Math.max.apply(null,[].concat.apply([],matrix))||1;
+  const padL=28,padR=6,padTop=18,padBot=8;
+  const plotW=w-padL-padR,plotH=h-padTop-padBot;
+  const cellW=plotW/cols;
+  const cellH=plotH/rows;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const v=matrix[r][c];
+      const intensity=v/maxV;
+      const alpha=0.08+intensity*0.75;
+      ctx.fillStyle='rgba(0,163,212,'+alpha+')';
+      ctx.fillRect(padL+c*cellW+1,padTop+r*cellH+1,cellW-2,cellH-2);
+      // Cell value: only show for non-zero, and only if cell is big enough
+      if(v>0 && cellW>=18 && cellH>=10){
+        ctx.fillStyle=intensity>0.45?'#0a0f14':'#e0e8f0';
+        ctx.font='8px Inter,sans-serif';
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.fillText(v,padL+c*cellW+cellW/2,padTop+r*cellH+cellH/2);
+        ctx.textBaseline='alphabetic';
+      }
+    }
+  }
+  // Hour labels on left (every 4 hours)
+  ctx.fillStyle='#7a8a9a';
+  ctx.font='10px Inter,sans-serif';
+  ctx.textAlign='right';
+  for(let r=0;r<rows;r+=4){
+    ctx.fillText(r+'h',padL-4,padTop+r*cellH+cellH/2+3);
+  }
+  // Day labels on top (M T W T F S S)
+  const dayLabels=['M','T','W','T','F','S','S'];
+  ctx.textAlign='center';
+  for(let c=0;c<cols;c++){
+    ctx.fillText(dayLabels[c],padL+c*cellW+cellW/2,padTop-4);
+  }
+}
+
+function renderDailyChart(){
+  const dc=(_data&&_data.stats&&_data.stats.daily_counts)||{};
+  const dates=Object.keys(dc).sort();
+  const range=_graphRange===0?dates.length:Math.min(_graphRange,dates.length);
+  const slice=dates.slice(-range);
+  const vals=slice.map(d=>dc[d]||0);
+  const maxV=Math.max.apply(null,vals)||1;
+  const scaleSuffix=maxV>=1000?'k msgs':' msgs';
+  const scaleVals=maxV>=1000?vals.map(v=>v/1000):vals;
+  const yLabel=(maxV>=1000?(maxV/1000):maxV).toLocaleString()+scaleSuffix;
+  drawLine(document.getElementById('graphDaily'),scaleVals,'#00a3d4',{fill:true,xDates:slice,yMaxLabel:yLabel});
+}
+
+function renderGraphCharts(){
+  renderDailyChart();
+  const channels=(_data&&_data.stats&&_data.stats.channels)||{};
+  const chLabels=Object.keys(channels).map(c=>
+    c.replace('community-projects-showcase','Projects')
+     .replace('plugins-skills-and-skins','Plugins')
+     .replace('hermes-agent','Hermes')
+     .replace('developers','Devs')
+  );
+  drawBars(document.getElementById('graphChannel'),chLabels,Object.values(channels),'#00d4aa',{labels:true,valueLabels:true});
+  const hourCounts=new Array(24).fill(0);
+  (chunks||[]).forEach(c=>{
+    const t=c.start_time||c.end_time;
+    if(t){const d=new Date(t);if(!isNaN(d))hourCounts[d.getUTCHours()]++;}
+  });
+  drawBars(document.getElementById('graphHour'),hourCounts.map((_,i)=>i+'h'),hourCounts,'#8b5cf6',{labels:true,valueLabels:true});
+  const dow=(_data&&_data.stats&&_data.stats.day_of_week)||{};
+  drawBars(document.getElementById('graphDow'),Object.keys(dow),Object.values(dow),'#00d4aa',{labels:true,valueLabels:true});
+  drawHeatmap(document.getElementById('graphHeatmap'),(_data&&_data.stats&&_data.stats.hour_day_heatmap)||[]);
+  const growth=(_data&&_data.stats&&_data.stats.contributor_growth)||{};
+  const growthDates=Object.keys(growth).sort();
+  const growthVals=growthDates.map(d=>growth[d]);
+  drawLine(document.getElementById('graphGrowth'),growthVals,'#f59e0b',{fill:true,xDates:growthDates,yMaxLabel:Math.max.apply(null,growthVals).toLocaleString()+' ppl'});
+  const cdt=(_data&&_data.stats&&_data.stats.channel_daily)||{};
+  const cdtChannels=Object.keys(cdt);
+  if(cdtChannels.length){
+    const allDates=Array.from(new Set(cdtChannels.flatMap(ch=>Object.keys(cdt[ch]||{})))).sort();
+    const series=cdtChannels.map(ch=>({
+      name:ch.replace('community-projects-showcase','Projects')
+             .replace('plugins-skills-and-skins','Plugins')
+             .replace('hermes-agent','Hermes')
+             .replace('developers','Devs'),
+      values:allDates.map(d=>(cdt[ch]||{})[d]||0)
+    }));
+    drawMultiLine(document.getElementById('graphChannelsTime'),series,['#00a3d4','#00d4aa','#f59e0b'],{xDates:allDates});
+  }
+  const topAuthors=((_data&&_data.leaderboard)||[]).slice(0,10);
+  drawBars(document.getElementById('graphAuthors'),topAuthors.map(a=>a.name),topAuthors.map(a=>a.total_messages||0),'#f59e0b',{labels:true,valueLabels:true});
+}
+function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'})}catch{return iso}}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});
+}
+load();
+</script>
+</body>
+</html>
