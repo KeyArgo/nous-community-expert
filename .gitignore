@@ -5,7 +5,7 @@ __pycache__/
 venv/
 .venv/
 
-# Generated data files (post-2026-06-10: sharded to stay under CF Pages 25 MiB limit)
+# Generated data files
 search-data.json
 search-index.json
 search-data-*.json
@@ -19,3 +19,15 @@ metadata.json
 .env
 .DS_Store
 Thumbs.db
+
+# Chunk embeddings (regenerated every build)
+search-embeddings-*.json
+
+# Data exports (regenerated every build)
+dist/chunks.jsonl
+dist/conversations.jsonl
+dist/users.jsonl
+dist/rag-corpus/
+
+# Build failure marker
+build_failed.json

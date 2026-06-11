@@ -154,10 +154,46 @@
   .badge-pillar{background:rgba(20,184,166,0.12);color:#14b8a6;border:1px solid rgba(20,184,166,0.25)}
   .badge-sage{background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.25)}
   .badge-diplomat{background:rgba(59,130,246,0.12);color:#3b82f6;border:1px solid rgba(59,130,246,0.25)}
-  .profile-section{margin:.8rem 0}
+  .badge-linker{background:rgba(99,102,241,0.12);color:#6366f1;border:1px solid rgba(99,102,241,0.25)}
+  .badge-convo-starter{background:rgba(251,146,60,0.12);color:#fb923c;border:1px solid rgba(251,146,60,0.25)}
+  .badge-emoji-master{background:rgba(250,204,21,0.12);color:#facc15;border:1px solid rgba(250,204,21,0.25)}
+  .badge-questioner{background:rgba(168,85,247,0.12);color:#a855f7;border:1px solid rgba(168,85,247,0.25)}
+  .badge-helper{background:rgba(34,211,238,0.12);color:#22d3ee;border:1px solid rgba(34,211,238,0.25)}
+  .badge-mentor{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+  .badge-og{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.25)}
+  .badge-resurrected{background:rgba(217,70,239,0.12);color:#d946ef;border:1px solid rgba(217,70,239,0.25)}
+  .badge-lover{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)}
+  .badge-hater{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.25)}
+  .badge-mod{background:rgba(250,204,21,0.12);color:#facc15;border:1px solid rgba(250,204,21,0.25)}
+  .badge-developer{background:rgba(129,140,248,0.12);color:#818cf8;border:1px solid rgba(129,140,248,0.25)}
+  .style-pill{font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(0,163,212,0.08);border:1px solid rgba(0,163,212,0.2);border-radius:6px;color:var(--primary-light);display:inline-block;line-height:1.4}
+  .developed-link{font-size:0.8rem;color:var(--primary-light);text-decoration:none;display:block;padding:0.15rem 0}
+  .developed-link:hover{text-decoration:underline}
   .mood-section{padding:.6rem .8rem;background:var(--surface-2);border-radius:8px;border:1px solid var(--border)}
   .mood-text{font-size:.85rem;color:var(--text);line-height:1.4;font-style:italic}
   .mood-meta{font-size:.7rem;color:var(--text-muted);margin-top:.3rem}
+  .brand-row{display:flex;flex-wrap:wrap;gap:0.3rem;align-items:center;margin:0.3rem 0}
+  .brand-label{font-size:0.75rem;color:var(--text-muted);margin-right:0.3rem}
+  .brand-pill{font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:10px;display:inline-flex;align-items:center;gap:0.25rem}
+  .brand-shill{background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+  .brand-hater{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+  .brand-count{opacity:0.7;font-size:0.65rem}
+  .brand-empty{color:var(--text-muted);font-size:0.85rem;opacity:0.7}
+  .profile-section{margin:0.8rem 0}
+  .style-summary{font-style:italic;color:var(--primary-light)}
+  .style-heuristic{color:var(--text-muted);font-size:0.85rem}
+  .style-empty{color:var(--text-muted);font-size:0.85rem;opacity:0.7}
+  .gpu-badge{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.8rem;background:var(--surface);border:1.5px solid;border-radius:8px;font-family:'JetBrains Mono',monospace}
+  .gpu-rank{font-size:0.9rem;font-weight:700;color:var(--text)}
+  .gpu-name{font-size:0.95rem;font-weight:600;color:var(--text);flex:1}
+  .gpu-vram{font-size:0.8rem;color:var(--text-muted)}
+  .gpu-category{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+  .gpu-prayer{border-color:var(--text-muted);opacity:0.7}
+  .gpu-hint{font-size:0.7rem;color:var(--text-muted);margin:0.3rem 0 0;font-style:italic}
+  .gpu-pill{display:inline-block;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.3rem;font-weight:500;white-space:nowrap}
+  .share-btn{background:var(--primary);color:#fff;border:none;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-size:0.85rem;margin:0.3rem}
+  .share-btn:hover{background:var(--primary-light)}
+  .share-btn-secondary{background:var(--surface-2);color:var(--text)}
   @media(min-width:901px){.sidebar-toggle{display:none!important}#sidebarContent{display:grid!important}}
   @media(max-width:900px){
     .stats{gap:.8rem;flex-wrap:wrap}
@@ -219,28 +255,31 @@
 <div id="profile" class="profile"></div>
 
 <div class="sidebar-toggle" onclick="toggleSidebar()" id="sidebarToggle">
-  <span id="sidebarToggleText">📊 Show leaderboard, streaks & top days</span>
+  <span id="sidebarToggleText">📊 Show leaderboard</span>
 </div>
 <div id="sidebarContent" class="list-cols">
-  <div class="list-col">
-    <div class="section-label">🏆 Leaderboard <span class="hlp" onclick="showBadgeLegend()">?</span></div>
-    <div class="tabs" id="lbTabs"></div>
-    <div id="leaderboard"><div class="loading">Loading…</div></div>
-  </div>
-  <div class="list-col">
-    <div class="section-label">🔥 Streaks</div>
-    <div class="tabs" id="stTabs"></div>
-    <div id="streaks"><div class="loading">Loading…</div></div>
-  </div>
-  <div class="list-col">
-    <div class="section-label">📅 Top Days</div>
-    <div id="topDays"><div class="loading">Loading…</div></div>
-  </div>
+    <div class="list-col">
+      <div class="section-label">🏆 Leaderboard <span class="hlp" onclick="showBadgeLegend()">?</span></div>
+      <div class="tabs" id="lbTopTabs"></div>
+      <div class="tabs" id="lbSubTabs"></div>
+      <div id="leaderboard"><div class="loading">Loading…</div></div>
+    </div>
+
 </div>
 
 <div class="trending">
   <div class="section-label">Trending</div>
   <div class="tags" id="trendTags"></div>
+</div>
+
+<div id="potd" style="display:none;margin-bottom:.8rem;padding:.6rem .8rem;background:var(--surface);border:1px solid var(--primary);border-radius:8px">
+  <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:.3rem">Project of the Day</div>
+  <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+    <a id="potdLink" href="" target="_blank" rel="noopener" style="font-size:.85rem;font-weight:600;color:var(--primary-light);text-decoration:none">
+      <span id="potdName"></span>
+    </a>
+    <span style="font-size:.7rem;color:var(--text-muted)" id="potdMeta"></span>
+  </div>
 </div>
 
 <div class="srch">
@@ -300,6 +339,10 @@
       <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">24h x 7d heatmap (chunks)</div>
       <canvas id="graphHeatmap" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
     </div>
+    <div class="chart-box">
+      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Top contributors</div>
+      <canvas id="graphAuthors" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
+    </div>
   </div>
 
   <div class="chart-grid">
@@ -311,18 +354,15 @@
       <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Top 3 channels (chunks per day)</div>
       <canvas id="graphChannelsTime" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
     </div>
-    <div class="chart-box">
-      <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.4rem">Top contributors (messages)</div>
-      <canvas id="graphAuthors" style="width:100%;height:150px;background:var(--bg);border-radius:6px"></canvas>
-    </div>
   </div>
 </div>
 
 <footer>
   <p>Talio — <span id="lu2"></span></p>
   <p style="margin-top:.4rem">
-    <a href="https://github.com/KeyArgo/nous-community-expert-dev">⭐ Star on GitHub</a> · <a href="https://github.com/inovinlabs/nous-community-expert-dev/blob/main/LICENSE">MIT License</a>
+    <a href="https://github.com/KeyArgo/nous-community-expert-dev">⭐ Star on GitHub</a> · <a href="https://github.com/KeyArgo/nous-community-expert-dev/issues/new?labels=bug&template=bug_report.md">🐞 Report a bug</a> · <a href="https://github.com/inovinlabs/nous-community-expert-dev/blob/main/LICENSE">MIT License</a>
   </p>
+  <p id="versionFooter" style="margin-top:.4rem;font-size:.65rem;color:var(--text-muted);opacity:.7"></p>
 </footer>
 </div>
 
@@ -342,6 +382,30 @@
     <div class="item"><span class="badge-pill badge-pillar">Pillar</span><span style="color:var(--text-muted);font-size:.75rem">50+ active days</span></div>
     <div class="item"><span class="badge-pill badge-sage">Sage</span><span style="color:var(--text-muted);font-size:.75rem">High-value convos (15+ msgs/chunk)</span></div>
     <div class="item"><span class="badge-pill badge-diplomat">Diplomat</span><span style="color:var(--text-muted);font-size:.75rem">Active in all 4 channels</span></div>
+    <h3 style="margin-top:1rem">🎖 More Awards (v0.3.0)</h3>
+    <div class="item"><span class="badge-pill badge-linker">Linker</span><span style="color:var(--text-muted);font-size:.75rem">Shares lots of links (20+ chunks)</span></div>
+    <div class="item"><span class="badge-pill badge-convo-starter">Convo-starter</span><span style="color:var(--text-muted);font-size:.75rem">Long messages, deep threads</span></div>
+    <div class="item"><span class="badge-pill badge-emoji-master">Emoji Master</span><span style="color:var(--text-muted);font-size:.75rem">40%+ messages have emoji</span></div>
+    <div class="item"><span class="badge-pill badge-questioner">Questioner</span><span style="color:var(--text-muted);font-size:.75rem">40%+ messages ask questions</span></div>
+    <div class="item"><span class="badge-pill badge-helper">Helper</span><span style="color:var(--text-muted);font-size:.75rem">Frequently gives help and thanks</span></div>
+    <div class="item"><span class="badge-pill badge-mentor">Mentor</span><span style="color:var(--text-muted);font-size:.75rem">High-value convos + long streak</span></div>
+    <div class="item"><span class="badge-pill badge-og">OG</span><span style="color:var(--text-muted);font-size:.75rem">Active since archive began</span></div>
+    <div class="item"><span class="badge-pill badge-resurrected">Resurrected</span><span style="color:var(--text-muted);font-size:.75rem">Returned after 120+ day gap</span></div>
+    <h3 style="margin-top:1rem">❤️ Brand Affinity (v0.4.0)</h3>
+    <div class="item"><span class="badge-pill badge-lover">Brand lover</span><span style="color:var(--text-muted);font-size:.75rem">10+ mentions of a brand with 3:1 positive ratio</span></div>
+    <div class="item"><span class="badge-pill badge-hater">Brand hater</span><span style="color:var(--text-muted);font-size:.75rem">10+ mentions of a brand with 3:1 negative ratio</span></div>
+    <h3 style="margin-top:1rem">👑 Role Pills (v0.4.0)</h3>
+    <div class="item"><span class="badge-pill badge-mod">Mod</span><span style="color:var(--text-muted);font-size:.75rem">Community moderator or admin</span></div>
+    <div class="item"><span class="badge-pill badge-developer">Developer</span><span style="color:var(--text-muted);font-size:.75rem">Built plugins, skills, or tools for the community</span></div>
+    <h3 style="margin-top:1rem">🏅 Profile Achievements</h3>
+    <div class="item"><span>🗣️ Chatterbox</span><span style="color:var(--text-muted);font-size:.75rem">50,000+ messages</span></div>
+    <div class="item"><span>💬 Wordsmith</span><span style="color:var(--text-muted);font-size:.75rem">10,000+ messages</span></div>
+    <div class="item"><span>📦 Heavy Lifter</span><span style="color:var(--text-muted);font-size:.75rem">1,000+ chunks</span></div>
+    <div class="item"><span>🌍 Omnipresent</span><span style="color:var(--text-muted);font-size:.75rem">Active in 3+ channels</span></div>
+    <div class="item"><span>📆 Dedicated</span><span style="color:var(--text-muted);font-size:.75rem">60+ active days</span></div>
+    <div class="item"><span>🔥 Consistent</span><span style="color:var(--text-muted);font-size:.75rem">30+ active days</span></div>
+    <div class="item"><span>⭐ Hall of Fame</span><span style="color:var(--text-muted);font-size:.75rem">Top 10 on the leaderboard</span></div>
+    <div class="item"><span>👻 Silent Observer</span><span style="color:var(--text-muted);font-size:.75rem">Has chunks but no messages</span></div>
     <p style="color:var(--text-muted);font-size:.75rem;margin-top:.8rem">Awards are earned from lifetime stats and never revoked.</p>
   </div>
 </div>
@@ -349,7 +413,7 @@
 <script>
 // ─── State ─────────────────────────────────────────────
 let chunks=[], searchIndex=null, dataReady=false, results=[], page=0, PS=10;
-let _data=null, _lbMode='overall', _count=15;
+let _data=null, _meta=null, _lbTopMode='leaderboard', _lbSubMode='overall', _count=15;
 let _graphRange=30;
 
 const MEDAL_ICONS={caduceus:'⚕',gold:'🏆',silver:'🥈',bronze:'🥉',ribbon:'🎀'};
@@ -371,6 +435,29 @@ const AWARD_DESCS={
   pillar:'50+ active days',
   sage:'High-value convos (15+ msgs/chunk)',
   diplomat:'Active in all 4 channels',
+  linker:'Shares lots of links (20+ chunks)',
+  'convo-starter':'Long messages, deep threads',
+  'emoji-master':'40%+ messages have emoji',
+  questioner:'40%+ messages ask questions',
+  helper:'Frequently gives help and thanks',
+  mentor:'High-value convos + long streak',
+  og:'Active since archive began',
+  resurrected:'Returned after 120+ day gap',
+};
+const BRAND_META={
+  claude:['🤖','Claude','Frontier'],gpt:['⚡','GPT/ClosedAI','Frontier'],gemini:['🔮','Gemini','Frontier'],
+  llama:['🦙','Llama','Frontier'],grok:['⚡','Grok','Frontier'],mistral:['🌀','Mistral','Frontier'],
+  cohere:['🟪','Cohere','Frontier'],qwen:['🐉','Qwen','Chinese'],deepseek:['🐳','DeepSeek','Chinese'],
+  mimo:['🦾','MiMo','Chinese'],glm:['🦄','GLM','Chinese'],kimi:['🌙','Kimi','Chinese'],
+  yi:['🌐','Yi','Chinese'],baichuan:['📚','Baichuan','Chinese'],internlm:['🏯','InternLM','Chinese'],
+  hermes:['🌶️','Hermes','On-brand'],nous:['🧠','Nous','On-brand'],capybara:['🦫','Capybara','On-brand'],
+  slerp:['🌀','SLERP','On-brand'],dare:['🎲','DARE','On-brand'],distro:['🍲','Distro/Soup','On-brand'],
+  grpo:['📜','GRPO','Techniques'],dpo:['🔥','DPO','Techniques'],moe:['🧪','MoE','Techniques'],
+  rlhf:['🎓','RLHF','Techniques'],quant:['💧','Quant','Tooling'],vllm:['⚡','vLLM','Tooling'],
+  llamacpp:['🦀','llama.cpp','Tooling'],arxiv:['📑','ArXiv','Tooling'],cuda:['🌊','CUDA','Tooling'],
+  rocm:['💀','ROCm','Tooling'],kvcache:['📐','KV Cache','Tooling'],python:['🐍','Python','Tooling'],
+  huggingface:['🤗','HuggingFace','Tooling'],axolotl:['🦎','Axolotl','Tooling'],unsloth:['⚡','Unsloth','Tooling'],
+  sillytavern:['🎭','SillyTavern','Tooling'],oobabooga:['📜','Oobabooga','Tooling'],koboldai:['🐲','KoboldAI','Tooling'],
 };
 function renderBadges(medal,awards){
   let html='';
@@ -389,6 +476,17 @@ function renderBadges(medal,awards){
   return html;
 }
 
+// ─── Version footer ──────────────────────────────────
+function updateVersionFooter(){
+  const el=document.getElementById('versionFooter');
+  if(!el||!_meta)return;
+  const v=_meta.version||'0.0.0';
+  const b=_meta.build||'?';
+  const c=_meta.commit||'?';
+  const br=_meta.branch||'?';
+  el.textContent='v'+v+' (build '+b+', commit '+c+' on '+br+')';
+}
+
 // ─── Load ──────────────────────────────────────────────
 async function load(){
   const s=document.getElementById('ds');
@@ -397,7 +495,7 @@ async function load(){
     //    search-data-N.json / search-index-N.json files to fetch.
     const mr=await fetch('metadata.json');
     if(!mr.ok)throw new Error('metadata.json: HTTP '+mr.status);
-    const meta=await mr.json();
+    const meta=await mr.json(); _meta=meta;
     const nData=(meta.shards&&meta.shards.data)||1;
     const nIndex=(meta.shards&&meta.shards.index)||1;
 
@@ -426,8 +524,9 @@ async function load(){
       docs:indexShards[0].docs||[],
     };
     chunks=d.chunks||[]; dataReady=true; _data=d;
+    loadEmbeddings();
     s.textContent='Ready'; s.className='ds rdy';
-    renderStats(d); renderTrend(d); renderLB(d); renderStreaks(d); renderDays(d); renderChannels(d);
+    renderStats(d); renderTrend(d); renderProjectOfDay(); renderLB(d); renderChannels(d);
     const luEl=document.getElementById('lastUpdated');
     if(luEl&&d.last_updated){luEl.dataset.ts=d.last_updated;updateLastUpdated();}
     setInterval(updateLastUpdated,30000);
@@ -435,6 +534,7 @@ async function load(){
     if(gs){gs.style.display='block';renderGraphCharts();}
     initFromURL();
     showIntroIfNeeded();
+    updateVersionFooter();
   }catch(e){s.textContent='Error: '+e.message;s.className='ds err'}
 }
 
@@ -475,7 +575,13 @@ function getProfile(name){
   const lb=(_data&&_data.leaderboard)||[];
   const idx=lb.findIndex(u=>u.name.toLowerCase()===l);
   const entry=lb[idx];
-  const totalMessages=ac.reduce((sum,c)=>sum+(c.message_count||0),0);
+  // totalMessages from the leaderboard envelope (v0.2.1). The previous
+  // shape re-derived totalMessages from `ac` (chunks where this author
+  // appears) and added each chunk's message_count to the author, which
+  // inflated the count 3-12x for chatty users. Chunks no longer carry
+  // per-message author info on the client, so we trust the server's
+  // canonical number. Fall back to 0 when the user is off the leaderboard.
+  const totalMessages = entry ? (entry.total_messages || 0) : 0;
   return{
     name, totalChunks:ac.length, totalMessages,
     channels:Object.entries(chs).sort((a,b)=>b[1]-a[1]),
@@ -547,13 +653,17 @@ function showProfile(p){
     </div>`;
   }
 
+  const titleStr=lbEntry&&lbEntry.title?esc(lbEntry.title):'';
   e.className='profile open';
   e.innerHTML=`<span class=close onclick="document.getElementById('profile').className='profile'">✕</span>
     <div class=pname>${esc(p.name)}</div>
+    ${titleStr?`<div style="font-size:1rem;color:var(--accent);margin-bottom:0.3rem">${titleStr}</div>`:''}
+    ${lbEntry && lbEntry.github_handle ? `<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:.3rem">\u{1F48C} ${esc(lbEntry.github_handle)}</div>` : ''}
+    ${lbEntry && lbEntry.one_liner ? `<div style="font-size:.9rem;color:var(--accent);font-style:italic;margin-bottom:.5rem">\u201C${esc(lbEntry.one_liner)}\u201D</div>` : ''}
     <div class=ptitle>${title}</div>
     <div class=grid>
       ${p.rank>0?`<div class=c><div class=n>#${p.rank}</div><div class=l>Rank</div></div>`:''}
-      <div class=c><div class=n>${p.totalChunks.toLocaleString()}</div><div class=l>Chunks</div></div>
+      <div class=c><div class=n>${p.totalChunks.toLocaleString()}</div><div class=l>Points</div></div>
       <div class=c><div class=n>${p.totalMessages.toLocaleString()}</div><div class=l>Messages</div></div>
       <div class=c><div class=n>${p.channels.length}</div><div class=l>Channels</div></div>
       <div class=c><div class=n>${p.firstSeen||'—'}</div><div class=l>First</div></div>
@@ -566,14 +676,68 @@ function showProfile(p){
       return html ? `<div class=pb>${html}</div>` : '';
       })()}
       ${standingHtml}
-    <div class="profile-section mood-section" id="moodSection">
-      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:.3rem">🌡️ Vibe</div>
-      <div class="mood-text" id="moodText">Loading vibe…</div>
-      <div class="mood-meta" id="moodMeta"></div>
-    </div>
-    ${achv.length?`<div class=ach>${achv.map(a=>`<span class=a>${a}</span>`).join('')}</div>`:''}
+      ${lbEntry && lbEntry.style_pills && lbEntry.style_pills.length ? `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Posting style</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:0.3rem">${lbEntry.style_pills.map(p=>`<span class="style-pill">${esc(p)}</span>`).join('')}</div>
+      </div>` : ''}
+
+      ${lbEntry && (lbEntry.shill && lbEntry.shill.length || lbEntry.hater && lbEntry.hater.length) ? `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Brand affinity</h4>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.4rem;font-style:italic">10+ mentions with positive or negative sentiment</div>
+        ${lbEntry.shill && lbEntry.shill.length ? `
+        <div class=brand-row>
+          <span class=brand-label>Loves:</span>
+          ${lbEntry.shill.map(s=>{
+            const m=BRAND_META[s.brand]||['',s.brand];
+            return `<span class="brand-pill brand-shill">${m[0]||''} ${m[1]||s.brand} <span class=brand-count>${s.count}</span></span>`;
+          }).join('')}
+        </div>` : ''}
+        ${lbEntry.hater && lbEntry.hater.length ? `
+        <div class=brand-row>
+          <span class=brand-label>Criticizes:</span>
+          ${lbEntry.hater.map(s=>{
+            const m=BRAND_META[s.brand]||['',s.brand];
+            return `<span class="brand-pill brand-hater">${m[0]||''} ${m[1]||s.brand} <span class=brand-count>${s.count}</span></span>`;
+          }).join('')}
+        </div>` : ''}
+      </div>` : ''}
+      ${lbEntry && lbEntry.gpu ? `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Ranked GPU</h4>
+        <div class="gpu-badge" style="border-color:${lbEntry.gpu.color}">
+          <span class=gpu-rank>${lbEntry.gpu.emoji||'🎮'} #${lbEntry.gpu.rank}</span>
+          <span class=gpu-name>${esc(lbEntry.gpu.name)}</span>
+          <span class=gpu-vram>${esc(lbEntry.gpu.vram)}</span>
+        </div>
+      </div>` : `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Ranked GPU</h4>
+        <div class="gpu-badge gpu-prayer">
+          <span class=gpu-name>Awaiting hardware</span>
+          <span class=gpu-vram>not in top 50</span>
+        </div>
+      </div>`}
+      ${lbEntry && (lbEntry.mod || lbEntry.developer) ? `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Roles</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:0.3rem">
+          ${lbEntry.mod ? `<span class="badge-pill badge-mod">Mod</span>` : ''}
+          ${lbEntry.developer ? `<span class="badge-pill badge-developer">Developer</span>` : ''}
+        </div>
+      </div>` : ''}
+      ${lbEntry && lbEntry.developed && lbEntry.developed.length ? `
+      <div class=profile-section>
+        <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:0.3rem">Developed</h4>
+        ${lbEntry.developed.map(d=>`<a class="developed-link" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.repo)}</a>`).join('')}
+      </div>` : ''}
+      <div class="profile-section" style="display:flex;gap:0.3rem;flex-wrap:wrap">
+        <button class="share-btn" onclick='shareToDiscord(${JSON.stringify(p).replace(/'/g,"\'")})'>📤 Share to Discord</button>
+        <button class="share-btn share-btn-secondary" onclick='copyProfileUrl(${JSON.stringify(p).replace(/'/g,"\'")})'>🔗 Copy Link</button>
+      </div>
+    ${achv.length?`<div class=ach>${achv.map(a=>`<span class=a>${a}</span>`).join('')}<span class=hlp onclick="showBadgeLegend()" style="font-size:.7rem;margin-left:.2rem;cursor:pointer" title="Badge legend">ⓘ</span></div>`:''}
     <div class=pch>Active in: ${p.channels.map(([c,n])=>`<span>${esc(c)}</span>(${n})`).join(', ')}</div>`;
-  loadMood(p.name);
 }
 
 function getTitle(p){
@@ -590,28 +754,6 @@ function getTitle(p){
   if(p2>=500)return'Rising Star 💫';
   if(p2>=100)return'True Believer 🙌';
   return'Fresh Voice 🌱';
-}
-
-// ─── Mood (T14) ─────────────────────────────────────────
-async function loadMood(username){
-  const el=document.getElementById('moodText');
-  const meta=document.getElementById('moodMeta');
-  if(!el)return;
-  el.textContent='Loading vibe…';
-  try{
-    const entry=(_data?.leaderboard||[]).find(u=>u.name===username);
-    if(entry?.mood_cached){
-      el.textContent=entry.mood_cached.vibe;
-      meta.textContent='Updated '+formatRelative(entry.mood_cached.updated);
-      return;
-    }
-    const resp=await fetch(`https://talio-mood.workers.dev/?user=${encodeURIComponent(username)}`);
-    const data=await resp.json();
-    el.textContent=data.vibe||'no data';
-    meta.textContent='Updated '+formatRelative(data.updated);
-  }catch(e){
-    el.textContent='(mood unavailable)';
-  }
 }
 
 // ─── Badge Modal ───────────────────────────────────────
@@ -681,6 +823,44 @@ function flash(msg){
   setTimeout(()=>el.remove(),1500);
 }
 
+// ─── T12: Share to Discord ─────────────────────────────
+async function shareToDiscord(user){
+  const lbEntry=(_data&&_data.leaderboard||[]).find(x=>x.name.toLowerCase()===user.name.toLowerCase())||{};
+  const tierName=lbEntry.medal?lbEntry.medal[1]:'Apprentice';
+  const tierIcon=lbEntry.medal?(MEDAL_ICONS[lbEntry.medal[0]]||'🌱'):'🌱';
+  const gpuName=lbEntry.gpu?lbEntry.gpu.name:'Awaiting hardware';
+  const gpuRank=lbEntry.gpu?' #'+lbEntry.gpu.rank:'';
+  const gpuEmoji=lbEntry.gpu?lbEntry.gpu.emoji:'\uD83C\uDFAE';
+  const shills=lbEntry.shill||[];
+  const haters=lbEntry.hater||[];
+  const topShill=shills.slice(0,2).map(s=>{
+    const m=BRAND_META[s.brand]||['',s.brand];
+    return (m[0]||'')+(m[1]||s.brand);
+  }).join(' \u00b7 ');
+  const topHater=haters.slice(0,1).map(s=>{
+    const m=BRAND_META[s.brand]||['',s.brand];
+    return 'critical of '+(m[0]||'')+(m[1]||s.brand);
+  }).join(' \u00b7 ');
+  const url='https://nous-community-expert-dev.pages.dev/#p='+encodeURIComponent(user.name);
+  const version='\n\n\u2014 Talio v5.5 (build '+(_data&&_data.last_updated?_data.last_updated.slice(0,10):'dev')+')';
+  let line2=gpuEmoji+' '+gpuName+gpuRank+(topShill?' \u00b7 '+topShill:'')+(topHater?' \u00b7 '+topHater:'');
+  // v2-review: cap line 2 to 200 chars (Discord embed preview truncation)
+  if(line2.length>200)line2=line2.slice(0,199)+'\u2026';
+  const text=tierIcon+' '+user.name+' on Talio \u2014 '+tierName+' \u00b7 '+user.totalChunks.toLocaleString()+' points \u00b7 '+user.totalMessages.toLocaleString()+' msgs\n'+line2+'\n'+url+version;
+  try{
+    await navigator.clipboard.writeText(text);
+    flash('Copied to clipboard \u2014 paste in Discord');
+  }catch(e){
+    window.open('https://discord.com/channels/@me','_blank');
+    flash('Discord opened \u2014 paste the link to share');
+  }
+}
+async function copyProfileUrl(user){
+  const url='https://nous-community-expert-dev.pages.dev/#p='+encodeURIComponent(user.name);
+  await navigator.clipboard.writeText(url);
+  flash('Link copied');
+}
+
 // ─── Trending ──────────────────────────────────────────
 function renderTrend(d){
   const q=d.sample_queries||[],el=document.getElementById('trendTags');
@@ -689,35 +869,86 @@ function renderTrend(d){
 }
 function qS(q){document.getElementById('si').value=q;search();}
 
+// ─── Project of the Day ────────────────────────────────
+function renderProjectOfDay(){
+  const potd=_meta&&_meta.project_of_the_day;
+  const el=document.getElementById('potd');
+  if(!potd||!el)return;
+  document.getElementById('potdName').textContent=potd.repo;
+  document.getElementById('potdLink').href='https://github.com/'+potd.repo;
+  const parts=[];
+  if(potd.mention_count)parts.push(potd.mention_count+' mentions');
+  if(potd.unique_users&&potd.unique_users.length)parts.push('by '+potd.unique_users.length+' users');
+  document.getElementById('potdMeta').textContent=parts.join(' · ');
+  el.style.display='block';
+}
+
 // ─── Leaderboard ───────────────────────────────────────
+function channelLabel(c){
+  return c.replace('community-projects-showcase','Projects')
+          .replace('plugins-skills-and-skins','Plugins')
+          .replace('hermes-agent','#hermes')
+          .replace('developers','#dev');
+}
+
 function renderLB(d){
-  renderTabs();
+  renderTopTabs();
+  renderSubTabs();
   const el=document.getElementById('leaderboard');
   const all=d.leaderboard||[];
   const chLB=d.channel_leaderboards||{};
-  let list;
-  if(_lbMode==='overall')list=all;
-  else list=chLB[_lbMode]||[];
+  let list, valKey, valSuffix, clickable=true;
+  if(_lbTopMode==='streaks'){
+    list=(d.streaks||[]).map(s=>({name:s.name,val:s.max_streak}));
+    valKey='val';valSuffix='d';
+  }else if(_lbTopMode==='topdays'){
+    list=(d.top_days||[]).map(t=>({name:t.date,val:t.count}));
+    valKey='val';valSuffix='';clickable=false;
+  }else if(_lbSubMode==='overall'){
+    list=all;valKey='total_messages';valSuffix='';
+  }else{
+    list=chLB[_lbSubMode]||[];valKey='chunks';valSuffix='';
+  }
   const cnt=Math.min(_count,list.length);
   if(!list.length){el.innerHTML='<div class=loading>No data</div>';return;}
+  const isOverall=_lbTopMode==='leaderboard'&&_lbSubMode==='overall';
   el.innerHTML=countToggles()+
     list.slice(0,cnt).map((u,i)=>{
-      const name=u.name||'?', msgs=u.total_messages||u.chunks||0;
-      const badgesHtml=renderBadges(u.medal, u.awards);
-      return `<div class=list-item><span class=name><span style=color:var(--text-muted);font-size:.7rem>${i+1}.</span> <span class=au onclick="lU('${esc(name)}')">${esc(name)}</span> ${badgesHtml}</span><span class=val>${msgs.toLocaleString()}</span></div>`;
+      const name=u.name||'?';
+      const msgs=u[valKey]||0;
+      const badgesHtml=isOverall?renderBadges(u.medal, u.awards):'';
+      const gpuHtml=isOverall&&u.gpu?`<span class="gpu-pill" style="background:${u.gpu.color}22;color:${u.gpu.color};border:1px solid ${u.gpu.color}55">${u.gpu.emoji||'\uD83C\uDFAE'} ${esc(u.gpu.name)}</span>`:'';
+      const clickAttr=clickable?`lU('${esc(name)}')`:'';
+      return `<div class=list-item><span class=name><span style=color:var(--text-muted);font-size:.7rem>${i+1}.</span> ${clickAttr?`<span class=au onclick="${clickAttr}">${esc(name)}</span>`:esc(name)} ${badgesHtml}${gpuHtml}</span><span class=val>${msgs.toLocaleString()}${valSuffix}</span></div>`;
     }).join('');
 }
 
-function renderTabs(){
-  const el=document.getElementById('lbTabs');
-  const chs=_data&&_data.channel_leaderboards?Object.keys(_data.channel_leaderboards):[];
-  el.innerHTML=['overall',...chs].map(c=>
-    `<span class=tab${_lbMode===c?' active':''} onclick="switchLB('${c}')">${c==='overall'?'Overall':c.replace('community-projects-showcase','Projects').replace('plugins-skills-and-skins','Plugins').replace('hermes-agent','#hermes').replace('developers','#dev')}</span>`
+function renderTopTabs(){
+  const el=document.getElementById('lbTopTabs');
+  if(!el)return;
+  el.innerHTML=['leaderboard','streaks','topdays'].map(m=>
+    `<span class=tab${_lbTopMode===m?' active':''} onclick="switchLBTop('${m}')">${
+      m==='leaderboard'?'🏆 Leaderboard':m==='streaks'?'🔥 Streaks':'📅 Top Days'
+    }</span>`
   ).join('');
 }
 
-function switchLB(m){_lbMode=m;if(_data)renderLB(_data);}
-function setCount(n){_count=n;if(_data){renderLB(_data);renderStreaks(_data);renderDays(_data);}}
+function renderSubTabs(){
+  const el=document.getElementById('lbSubTabs');
+  if(!el)return;
+  const chs=_data&&_data.channel_leaderboards?Object.keys(_data.channel_leaderboards):[];
+  el.style.display=_lbTopMode==='leaderboard'?'':'none';
+  if(_lbTopMode!=='leaderboard'){el.innerHTML='';return;}
+  el.innerHTML=['overall',...chs].map(c=>
+    `<span class=tab${_lbSubMode===c?' active':''} onclick="switchLBSub('${c}')">${
+      c==='overall'?'Overall':channelLabel(c)
+    }</span>`
+  ).join('');
+}
+
+function switchLBTop(m){_lbTopMode=m;_lbSubMode='overall';if(_data)renderLB(_data);}
+function switchLBSub(m){_lbSubMode=m;if(_data)renderLB(_data);}
+function setCount(n){_count=n;if(_data){renderLB(_data);}}
 function countToggles(){
   return `<div style=margin-bottom:.4rem;display:flex;gap:.3rem;flex-wrap:wrap>${
     [15,50,100].map(n=>`<span class="tag${_count===n?' active':''}" onclick=setCount(${n})>${n}</span>`).join('')
@@ -780,7 +1011,7 @@ function tok(t){return(t||'').toLowerCase().split(/[^a-z0-9]+/).filter(t=>t.leng
 function bm25(q){
   if(!searchIndex||!chunks.length)return chunks.map(()=>0);
   const t=searchIndex.terms||{}, d=searchIndex.docs||[], dc=searchIndex.doc_count||chunks.length;
-  const ad=searchIndex.avg_dl||100, k1=1.5, b=0.75;
+  const ad=searchIndex.avg_dl||100, k1=1.5, b=0.95;
   const qt=tok(q); if(!qt.length)return chunks.map(()=>0);
   const s=new Float64Array(chunks.length);
   for(const term of qt){
@@ -796,7 +1027,119 @@ function bm25(q){
   return s;
 }
 
-function search(){
+function applyProximityBoost(scores, chunks, query){
+  const terms=tok(query);
+  if(!terms.length||!scores||!chunks)return scores;
+  const result=new Float64Array(scores.length);
+  for(let i=0;i<scores.length;i++){
+    const text=(chunks[i]&&chunks[i].text||'').toLowerCase();
+    if(!text||scores[i]<=0){result[i]=scores[i];continue;}
+    const positions=terms.map(t=>text.indexOf(t)).filter(p=>p>=0);
+    if(!positions.length){result[i]=scores[i];continue;}
+    const avgPos=positions.reduce((a,b)=>a+b,0)/positions.length;
+    const boost=Math.max(0,1-avgPos/Math.min(text.length,2000))*0.15;
+    result[i]=scores[i]*(1+boost);
+  }
+  return result;
+}
+
+// ─── Embeddings + Hybrid Search ────────────────────────
+let _embeddings = null;
+
+async function loadEmbeddings() {
+  if (!_data || !_data.chunk_embeddings) return;
+  try {
+    const shardFiles = _data.chunk_embeddings.shard_files || [];
+    const allChunkIds = [];
+    const allVectors = [];
+    for (const sf of shardFiles) {
+      const resp = await fetch(sf);
+      const shard = await resp.json();
+      const raw = atob(shard.vectors_b64);
+      const vecs = new Int8Array(raw.length);
+      for (let i = 0; i < raw.length; i++) vecs[i] = raw.charCodeAt(i);
+      allChunkIds.push(...shard.chunk_ids);
+      allVectors.push(vecs);
+    }
+    const dim = _data.chunk_embeddings.dim || 1024;
+    const totalVecs = allChunkIds.length;
+    const merged = new Int8Array(totalVecs * dim);
+    let offset = 0;
+    for (const vecs of allVectors) {
+      merged.set(vecs, offset);
+      offset += vecs.length;
+    }
+    _embeddings = { chunk_ids: allChunkIds, vectors: merged, dim };
+  } catch (e) {
+    console.warn('Embeddings load failed:', e);
+    _embeddings = null;
+  }
+}
+
+function cosineTopK(queryEmb, k = 50) {
+  if (!_embeddings) return [];
+  const { chunk_ids, vectors, dim } = _embeddings;
+  const results = [];
+  for (let i = 0; i < chunk_ids.length; i++) {
+    const offset = i * dim;
+    let dot = 0, nq = 0, nv = 0;
+    for (let j = 0; j < dim; j++) {
+      const qv = queryEmb[j], vv = vectors[offset + j];
+      dot += qv * vv;
+      nq += qv * qv;
+      nv += vv * vv;
+    }
+    const sim = dot / (Math.sqrt(nq) * Math.sqrt(nv) + 1e-9);
+    if (sim >= 0.3) results.push({ chunkId: chunk_ids[i], score: sim });
+  }
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, k);
+}
+
+function rrfFuse(bm25Results, cosResults, k = 60) {
+  const scores = new Map();
+  const add = (arr, weight) => {
+    arr.forEach((r, idx) => {
+      const id = r.chunkId || (r.c && r.c.id);
+      if (!id) return;
+      scores.set(id, (scores.get(id) || 0) + weight / (k + idx + 1));
+    });
+  };
+  add(bm25Results, 1.0);
+  add(cosResults, 1.0);
+  return scores;
+}
+
+let embedder = null;
+async function getEmbedder() {
+  if (!embedder) {
+    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.0/dist/transformers.min.js');
+    embedder = await pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5');
+  }
+  return embedder;
+}
+
+async function embedQuery(text) {
+  const e = await getEmbedder();
+  const result = await e(text, { pooling: 'mean', normalize: true });
+  return new Float32Array(result.data);
+}
+
+async function hybridSearch(query, bm25Scores) {
+  const queryEmb = await embedQuery(query);
+  const cosResults = cosineTopK(queryEmb, 100);
+  const idx = Array.from({length: chunks.length}, (_, i) => i);
+  idx.sort((a, b) => bm25Scores[b] - bm25Scores[a]);
+  const bm25Results = [];
+  for (const i of idx) {
+    if (bm25Scores[i] < 0.005) break;
+    bm25Results.push({ chunkId: chunks[i].id, c: chunks[i] });
+    if (bm25Results.length >= 100) break;
+  }
+  return rrfFuse(bm25Results, cosResults, 60);
+}
+
+async function search(){
   const q=document.getElementById('si').value.trim();
   const af=document.getElementById('af').value.trim().toLowerCase();
   const ep=document.getElementById('ep').value.trim().toLowerCase();
@@ -807,18 +1150,49 @@ function search(){
   const xl=ex?ex.split(',').map(t=>t.trim()).filter(Boolean):[];
   let useBM25=q.length>0, r=[];
   if(useBM25&&dataReady&&searchIndex){
-    const scores=bm25(q), idx=Array.from({length:chunks.length},(_,i)=>i);
-    idx.sort((a,b)=>scores[b]-scores[a]);
-    for(const i of idx){
-      if(scores[i]<0.005)break;
-      const c=chunks[i],txt=(c.text||'').toLowerCase(),aa=(c.authors||[]).map(a=>a.toLowerCase());
-      if(af&&!aa.some(a=>a.includes(af)))continue;
-      if(ch&&c.channel!==ch)continue;
-      if(ep&&!txt.includes(ep))continue;
-      if(tf==='channel'&&c.type!=='channel_chunk')continue;
-      if(tf==='forum'&&c.type!=='forum_chunk')continue;
-      if(xl.some(x=>txt.includes(x)))continue;
-      r.push({c,sc:scores[i]});
+    const scores=bm25(q);
+    if(_embeddings&&q.length>0){
+      const fused=await hybridSearch(q,scores);
+      const fusedSorted=[...fused.entries()].sort(([ida,a],[idb,b])=>{
+        if(a!==b)return b-a;
+        const ca=chunks.find(cc=>cc.id===ida),cb=chunks.find(cc=>cc.id===idb);
+        return ((ca&&ca.text)||'').length-((cb&&cb.text)||'').length;
+      });
+      for(const[id,score]of fusedSorted){
+        const c=chunks.find(cc=>cc.id===id);
+        if(!c)continue;
+        const txt=(c.text||'').toLowerCase(),aa=(c.authors||[]).map(a=>a.toLowerCase());
+        if(af&&!aa.some(a=>a.includes(af)))continue;
+        if(ch&&c.channel!==ch)continue;
+        if(ep&&!txt.includes(ep))continue;
+        if(tf==='channel'&&c.type!=='channel_chunk')continue;
+        if(tf==='forum'&&c.type!=='forum_chunk')continue;
+        if(xl.some(x=>txt.includes(x)))continue;
+        r.push({c,sc:score});
+        if(r.length>=100)break;
+      }
+    }else{
+      const boosted=applyProximityBoost(scores,chunks,q);
+      const idx=Array.from({length:chunks.length},(_,i)=>i);
+      idx.sort((a,b)=>{
+        const d=boosted[b]-boosted[a];
+        if(Math.abs(d)>1e-10)return d;
+        return ((chunks[a].text||'').length)-((chunks[b].text||'').length);
+      });
+      const MIN_BM25=0.1;
+      const MAX_RESULTS=100;
+      for(const i of idx){
+        if(boosted[i]<MIN_BM25)break;
+        const c=chunks[i],txt=(c.text||'').toLowerCase(),aa=(c.authors||[]).map(a=>a.toLowerCase());
+        if(af&&!aa.some(a=>a.includes(af)))continue;
+        if(ch&&c.channel!==ch)continue;
+        if(ep&&!txt.includes(ep))continue;
+        if(tf==='channel'&&c.type!=='channel_chunk')continue;
+        if(tf==='forum'&&c.type!=='forum_chunk')continue;
+        if(xl.some(x=>txt.includes(x)))continue;
+        r.push({c,sc:boosted[i]});
+        if(r.length>=MAX_RESULTS)break;
+      }
     }
   }else{
     for(const c of chunks){
@@ -830,6 +1204,7 @@ function search(){
       if(tf==='forum'&&c.type!=='forum_chunk')continue;
       if(xl.some(x=>txt.includes(x)))continue;
       r.push({c,sc:0});
+      if(r.length>=200)break;
     }
   }
   if(s==='new')r.sort((a,b)=>(b.c.start_time||'').localeCompare(a.c.start_time||''));
@@ -849,7 +1224,13 @@ function renderRes(){
   const el=document.getElementById('res'),pg=document.getElementById('pg');
   const st=page*PS, p=results.slice(st,st+PS);
   if(!results.length){el.innerHTML='<p style=color:var(--text-muted);text-align:center;padding:2rem;font-size:.9rem>No results</p>';pg.innerHTML='';return;}
-  el.innerHTML=`<p style=color:var(--text-muted);font-size:.8rem;margin-bottom:.6rem><span style=float:right;cursor:pointer onclick=shareSearch()>📤 Share</span>${st+1}–${Math.min(st+PS,results.length)} of ${results.length}</p>`+
+  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+    <span style="color:var(--text-muted);font-size:.8rem">${st+1}–${Math.min(st+PS,results.length)} of ${results.length}</span>
+    <span style="display:flex;gap:.3rem;align-items:center">
+      <span style="color:var(--text-muted);font-size:.7rem">Show:</span>
+      ${[10,25,50,100].map(n=>`<span class="tag${PS===n?' active':''}" onclick="setPageSize(${n})">${n}</span>`).join('')}
+    </span>
+  </div>`+
     p.map(r=>renderChunk(r)).join('');
   const tp=Math.ceil(results.length/PS);
   if(tp<=1){pg.innerHTML='';return;}
@@ -857,6 +1238,8 @@ function renderRes(){
     `<span style=padding:.3rem;color:var(--text-muted);font-size:.8rem>${page+1}/${tp}</span>`+
     `<button onclick="gP(${page+1})" ${page>=tp-1?'disabled':''}>›</button>`;
 }
+
+function setPageSize(n){PS=n;page=0;renderRes();}
 function gP(n){page=n;renderRes();window.scrollTo({top:document.getElementById('res').offsetTop-20,behavior:'smooth'});}
 
 function renderChunk(r){
@@ -889,7 +1272,7 @@ function toggleSidebar(){
   const el=document.getElementById('sidebarContent');
   const txt=document.getElementById('sidebarToggleText');
   const open=el.classList.toggle('open');
-  txt.textContent=open?'✕ Hide leaderboard':'📊 Show leaderboard, streaks & top days';
+  txt.textContent=open?'✕ Hide leaderboard':'📊 Show leaderboard';
 }
 
 // ─── Graphs (T8) ──────────────────────────────────────

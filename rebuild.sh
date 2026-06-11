@@ -1,12 +1,20 @@
 #!/bin/bash
 # Rebuild the Nous Community Expert static site
 # Pulls latest archive, rebuilds JSON index, optionally pushes to git for Cloudflare deploy
+#
+# Required environment:
+#   ARCHIVE_DIR  - path to the Discord archive clone (e.g. ~/nous-discord-archive)
+#   WEB_DIR      - path to this web repo checkout
+#
+# Optional:
+#   PUSH_TO_GIT  - set to "push" to commit and push the rebuilt artifacts
 set -e
 
-ARCHIVE_DIR="/mnt/homes/galileo/argo/Development/nous-discord-archive"
-WEB_DIR="/mnt/homes/galileo/argo/Development/nous-discord-web"
+: "${ARCHIVE_DIR:?ARCHIVE_DIR must be set to the Discord archive path}"
+: "${WEB_DIR:?WEB_DIR must be set to this repo path}"
+
 LOG_FILE="$WEB_DIR/rebuild.log"
-PUSH_TO_GIT="${1:-}"  # Pass "push" to also commit and push
+PUSH_TO_GIT="${PUSH_TO_GIT:-}"
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
@@ -60,7 +68,7 @@ if [ "$PUSH_TO_GIT" = "push" ]; then
     log "Committing and pushing..."
     cd "$WEB_DIR"
     git add search-data.json search-index.json metadata.json index.html build_index.py rebuild.sh
-    git commit -m "Rebuild: $(date '+%Y-%m-%d %H:%M') — $(python3 -c 'import json; m=json.load(open("metadata.json")); print(f"{m[\"total_chunks\"]} chunks, {m[\"total_messages\"]} msgs")')" 2>&1 | tee -a "$LOG_FILE" || log "Nothing to commit"
+    git commit -m "Rebuild: $(date '+%Y-%m-%d %H:%M') - $(python3 -c 'import json; m=json.load(open("metadata.json")); print(f"{m[\"total_chunks\"]} chunks, {m[\"total_messages\"]} msgs")')" 2>&1 | tee -a "$LOG_FILE" || log "Nothing to commit"
     git push 2>&1 | tee -a "$LOG_FILE" || log "WARNING: git push failed"
 fi
 

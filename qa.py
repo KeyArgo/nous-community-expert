@@ -137,6 +137,67 @@ if merged_terms:
         ok = all(0 <= p[0] < meta.get("total_chunks", 0) for p in postings)
         check(ok, f"sample term '{sample_term[:30]}' doc_idx in valid range")
 
+# Embedding shards (T13, hybrid retrieval) — OPTIONAL. If numpy/Ollama
+# wasn't available at build time, the shards won't exist and the site will
+# fall back to BM25-only. qa.py reports that and continues.
+n_emb = meta.get("shards", {}).get("embeddings", 0) if isinstance(meta.get("shards"), dict) else 0
+if n_emb and n_emb > 0:
+    print("== embedding shards ==")
+    MAX_SIZE = 25 * 1024 * 1024  # 25 MiB
+    for shard_idx in range(n_emb):
+        shard_path = BASE / f"search-embeddings-{shard_idx}.json"
+        exists = shard_path.exists()
+        check(exists, f"search-embeddings-{shard_idx}.json exists")
+        if exists:
+            size = shard_path.stat().st_size
+            check(size < MAX_SIZE, f"search-embeddings-{shard_idx}.json < 25MB ({size/1024/1024:.1f} MB)")
+            try:
+                shard = json.load(open(shard_path))
+                check("chunk_ids" in shard and isinstance(shard["chunk_ids"], list),
+                      f"search-embeddings-{shard_idx}.json has chunk_ids list")
+                check("vectors_b64" in shard and isinstance(shard["vectors_b64"], str),
+                      f"search-embeddings-{shard_idx}.json has vectors_b64 string")
+                check("dim" in shard and shard["dim"] == 1024,
+                      f"search-embeddings-{shard_idx}.json has dim=1024 (got {shard.get('dim')})")
+                check("model" in shard, f"search-embeddings-{shard_idx}.json has model field")
+                check("quantization" in shard and shard["quantization"] == "int8",
+                      f"search-embeddings-{shard_idx}.json has quantization=int8 (got {shard.get('quantization')})")
+            except Exception as e:
+                errors.append(f"  X search-embeddings-{shard_idx}.json: load failed: {e}")
+else:
+    print("== embedding shards: SKIPPED (no numpy/Ollama at build time; site uses BM25-only) ==")
+
+# New-user safety (ISSUE #7) — a brand-new user with 0 chunks/messages
+# must get safe defaults from every per-user assignment function, with no
+# crashes on missing keys.
+print("== new-user safety (ISSUE #7) ==")
+from build_index import (
+    assign_awards, assign_medal, assign_title, assign_shill_hater,
+    extract_developed, compute_style_heuristic, compute_style_pills,
+)
+
+new_user_stats = {
+    "name": "new-user", "total_chunks": 0, "total_messages": 0,
+    "channels": set(), "first_seen": "", "last_seen": "",
+    "max_streak": 0, "msg_per_chunk": 0, "dates_active": set(),
+    "hour_dist": {}, "total_msg_len": 0,
+}
+
+check(assign_awards(new_user_stats, "new-user") == [],
+      "assign_awards(0 chunks) returns []")
+check(assign_medal(None, "new-user") == ["ribbon", "Ribbon"],
+      "assign_medal(rank=None) returns ribbon")
+check(assign_title(new_user_stats, None) is None,
+      "assign_title(0 chunks) returns None")
+check(assign_shill_hater({}) == ([], []),
+      "assign_shill_hater({}) returns ([], [])")
+check(extract_developed([]) == [],
+      "extract_developed([]) returns []")
+check(compute_style_heuristic(new_user_stats) is None,
+      "compute_style_heuristic(0 chunks) returns None")
+check(compute_style_pills(new_user_stats) == [],
+      "compute_style_pills(0 chunks) returns []")
+
 if errors:
     print(f"\nFAILED ({len(errors)} errors):")
     for e in errors:
